@@ -8,10 +8,10 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package come.course.server.service;
+package com.course.server.service;
 
-import come.course.server.domain.Test;
-import come.course.server.mapper.TestMapper;
+import com.course.server.domain.Test;
+import com.course.server.mapper.TestMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

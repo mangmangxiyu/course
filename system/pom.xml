@@ -38,6 +38,12 @@
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
 
+        <!-- 依赖server模块 -->
+        <dependency>
+            <groupId>com.course</groupId>
+            <artifactId>server</artifactId>
+        </dependency>
+
     </dependencies>
 
 
