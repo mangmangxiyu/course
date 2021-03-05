@@ -72,6 +72,7 @@
     </div><!-- /.main-content -->
   </div><!-- /.main-container -->
 </template>
+<script>
 $('body').attr('class', 'login-layout light-login');
 export default {
 name: 'App',
