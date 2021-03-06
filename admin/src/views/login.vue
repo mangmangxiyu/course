@@ -75,9 +75,13 @@
   </div><!-- /.main-container -->
 </template>
 <script>
-  $('body').attr('class', 'login-layout light-login');
   export default {
-    name: 'App',
+    name: "login",
+    mounted: function() {
+      $("body").removeClass("no-skin");
+      $("body").attr("class", "login-layout light-login");
+      // console.log("login");
+    },
     methods: {
       login() {
         /*跳转路由*/
