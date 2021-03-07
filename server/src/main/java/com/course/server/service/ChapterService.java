@@ -12,10 +12,13 @@ package com.course.server.service;
 
 import com.course.server.domain.Chapter;
 import com.course.server.domain.ChapterExample;
+import com.course.server.dto.ChapterDto;
 import com.course.server.mapper.ChapterMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,11 +35,19 @@ public class ChapterService {
     @Resource
     private ChapterMapper chapterMapper;
 
-    public List<Chapter> list() {
+    public List<ChapterDto> list() {
         ChapterExample chapterExample = new ChapterExample();
-        chapterExample.createCriteria().andIdEqualTo("1");
-        chapterExample.setOrderByClause("id desc");
-        return chapterMapper.selectByExample(chapterExample);
-    }
+        List<Chapter> chapterList = chapterMapper.selectByExample(chapterExample);
+        ChapterDto chapterDto = new ChapterDto();
+        List<ChapterDto> chapterDtoList = new ArrayList<>();
+        // 遍历chapterList结果copy新的chaperDtoList
+        for (int i = 0, l = chapterList.size(); i < l; i++) {
+            Chapter chapter = chapterList.get(i);
 
+            // 实体间的复制；后期对BeanUtils做闭环处理简化使用提高效率
+            BeanUtils.copyProperties(chapter, chapterDto);
+            chapterDtoList.add(chapterDto);
+        }
+        return chapterDtoList;
+    }
 }

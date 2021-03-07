@@ -8,11 +8,11 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package com.course.business.controller;/**
+package com.course.business.controller.admin;/**
  * Created by 111 on 2021/3/3.
  */
 
-import com.course.server.domain.Chapter;
+import com.course.server.dto.ChapterDto;
 import com.course.server.service.ChapterService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +28,7 @@ import java.util.List;
  * @create 2021/3/3
  * @since 1.0.0
  */
-
+@RequestMapping("/admin")
 @RestController
 public class ChapterController {
 
@@ -36,7 +36,7 @@ public class ChapterController {
     private ChapterService chapterService;
 
     @RequestMapping("/chapter")
-    public List<Chapter> chapter() {
+    public List<ChapterDto> chapter() {
         return chapterService.list();
     }
 }
