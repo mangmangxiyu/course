@@ -976,8 +976,8 @@
   export default {
     name: "chapter",
     mounted: function() {
-      // 子组件调用父组件的方法
-      this.$parent().activeSidebar("business-chapter-sidebar")
+      // 子组件调用父组件的方法 sidebar激活样式方法一
+      // this.$parent().activeSidebar("business-chapter-sidebar")
     },
     methods: {
     }

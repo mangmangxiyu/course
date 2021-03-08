@@ -471,15 +471,32 @@
   export default {
     name: "admin",
     mounted: function() {
+      let _this = this;// js中this关键字代表当前执行方法的对象，好习惯：在方法开头声明_this代替this
       $("body").removeClass("login-layout light-login");
       $("body").attr("class", "no-skin");
       // console.log("admin");
+      // sidebar激活样式方法二
+      _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
+    },
+    watch:{// 只对admin下的子路由（子组件互相跳转）有效
+      $route: {
+        handler: function (val, oldVal) {
+          // sidebar激活样式方法二
+          console.log("-->页面跳转：", val, oldVal);
+          let _this = this;
+          // 将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。
+          _this.$nextTick(function () {// 页面加载完成后执行()
+            _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
+          })
+        }
+      }
     },
     methods: {
-      login() {
-        /*跳转路由*/
+      /*login() {
+        /!*跳转路由*!/
         this.$router.push("/admin")
-      },
+      },*/
+
       /**
        *  菜单激活样式，id是当前点击菜单的（组件的）id
        *  @param id
