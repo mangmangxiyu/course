@@ -971,3 +971,15 @@
       </tbody>
     </table>
 </template>
+
+<script>
+  export default {
+    name: "chapter",
+    mounted: function() {
+      // 子组件调用父组件的方法
+      this.$parent().activeSidebar("business-chapter-sidebar")
+    },
+    methods: {
+    }
+  }
+</script>
