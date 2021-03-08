@@ -85,7 +85,7 @@
     methods: {
       login() {
         /*跳转路由*/
-        this.$router.push("/admin")
+        this.$router.push("/welcome")
       }
     }
 }
