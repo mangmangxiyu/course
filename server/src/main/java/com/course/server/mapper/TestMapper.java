@@ -5,6 +5,7 @@ import com.course.server.domain.TestExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+
 public interface TestMapper {
     long countByExample(TestExample example);
 
