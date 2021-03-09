@@ -12,13 +12,15 @@ package com.course.business.controller.admin;/**
  * Created by 111 on 2021/3/3.
  */
 
-import com.course.server.dto.ChapterDto;
+import com.course.server.dto.PageDto;
 import com.course.server.service.ChapterService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -32,11 +34,15 @@ import java.util.List;
 @RestController
 public class ChapterController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ChapterController.class);
+
     @Resource
     private ChapterService chapterService;
 
     @RequestMapping("/list")
-    public List<ChapterDto> list() {
-        return chapterService.list();
+    public PageDto list(@RequestBody PageDto pageDto) {//@RequestBody接收表单的形式，不加接收的是json流的方式
+        LOG.info("pageDto: {}", pageDto);
+        chapterService.list(pageDto);
+        return pageDto;
     }
 }
