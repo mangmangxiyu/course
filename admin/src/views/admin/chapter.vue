@@ -1,11 +1,15 @@
 <template>
   <div>
     <p>
-      <button v-on:click="list()" class="btn btn-white btn-default btn-round">
+      <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
       <i class="ace-icon fa fa-refresh red2"></i>
       刷新
     </button>
     </p>
+
+    <!--组件的位置并进行渲染:第一个list组件内部定义的回调方法，第二个是chapter组件的方法list-->
+    <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
+
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
       <tr>
@@ -82,7 +86,9 @@
 </template>
 
 <script>
+  import Pagination from "../../components/pagination";
   export default {
+    components: {Pagination},
     name: "chapter",
     data: function() {
       return {
@@ -93,19 +99,20 @@
       // 子组件调用父组件的方法 sidebar激活样式方法一
       // this.$parent().activeSidebar("business-chapter-sidebar")
       let _this = this;
-      _this.list();
+      _this.$refs.pagination.size = 5;
+      _this.list(1);
       // 前后端数据交互
-
     },
     methods: {
-      list() {
+      list(page) {
         let _this = this;
         _this.$ajax.post('http://127.0.0.1:9000/business/admin/chapter/list', {
-          page: 1,
-          size: 1
+          page: page,
+          size: _this.$refs.pagination.size, // $refs获取子组件（根绝pagination这个名字）
         }).then((response)=>{
           console.log("查询大章列表结果:", response);
           _this.chapters = response.data.list;
+          _this.$refs.pagination.render(page, response.data.total);//重现渲染组件
         })
       }
     }
