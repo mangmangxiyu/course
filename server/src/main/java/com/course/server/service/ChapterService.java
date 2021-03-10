@@ -15,14 +15,13 @@ import com.course.server.domain.ChapterExample;
 import com.course.server.dto.ChapterDto;
 import com.course.server.dto.PageDto;
 import com.course.server.mapper.ChapterMapper;
+import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,15 +45,16 @@ public class ChapterService {
         List<Chapter> chapterList = chapterMapper.selectByExample(chapterExample);
         PageInfo<Chapter> pageInfo = new PageInfo<>(chapterList);
         pageDto.setTotal(pageInfo.getTotal());
-        List<ChapterDto> chapterDtoList = new ArrayList<>();
+//        List<ChapterDto> chapterDtoList = new ArrayList<>();
         // 遍历chapterList结果copy新的chaperDtoList
-        for (int i = 0, l = chapterList.size(); i < l; i++) {
-            Chapter chapter = chapterList.get(i);
-            ChapterDto chapterDto = new ChapterDto();
-            // 实体间的复制；后期对BeanUtils做闭环处理简化使用提高效率
-            BeanUtils.copyProperties(chapter, chapterDto);
-            chapterDtoList.add(chapterDto);
-        }
+//        for (int i = 0, l = chapterList.size(); i < l; i++) {
+//            Chapter chapter = chapterList.get(i);
+//            ChapterDto chapterDto = new ChapterDto();
+//            // 实体间的复制；后期对BeanUtils做闭环处理简化使用提高效率
+//            BeanUtils.copyProperties(chapter, chapterDto);
+//            chapterDtoList.add(chapterDto);
+//        }
+        List<ChapterDto> chapterDtoList = CopyUtil.copyList(chapterList, ChapterDto.class);
         pageDto.setList(chapterDtoList);
 //        return pageDto;
     }
@@ -62,8 +62,9 @@ public class ChapterService {
     // 新增大章
     public void save(ChapterDto chapterDao) {
         chapterDao.setId(UuidUtil.getShortUuid());
-        Chapter chapter = new Chapter();
-        BeanUtils.copyProperties(chapterDao, chapter);
+//        Chapter chapter = new Chapter();
+//        BeanUtils.copyProperties(chapterDao, chapter);
+        Chapter chapter = CopyUtil.copy(chapterDao, Chapter.class);
         chapterMapper.insert(chapter);
     }
 }
