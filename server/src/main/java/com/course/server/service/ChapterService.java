@@ -15,6 +15,7 @@ import com.course.server.domain.ChapterExample;
 import com.course.server.dto.ChapterDto;
 import com.course.server.dto.PageDto;
 import com.course.server.mapper.ChapterMapper;
+import com.course.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
@@ -56,5 +57,13 @@ public class ChapterService {
         }
         pageDto.setList(chapterDtoList);
 //        return pageDto;
+    }
+
+    // 新增大章
+    public void save(ChapterDto chapterDao) {
+        chapterDao.setId(UuidUtil.getShortUuid());
+        Chapter chapter = new Chapter();
+        BeanUtils.copyProperties(chapterDao, chapter);
+        chapterMapper.insert(chapter);
     }
 }

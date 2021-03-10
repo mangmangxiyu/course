@@ -12,6 +12,7 @@ package com.course.business.controller.admin;/**
  * Created by 111 on 2021/3/3.
  */
 
+import com.course.server.dto.ChapterDto;
 import com.course.server.dto.PageDto;
 import com.course.server.service.ChapterService;
 import org.slf4j.Logger;
@@ -39,10 +40,19 @@ public class ChapterController {
     @Resource
     private ChapterService chapterService;
 
+    // 查询大章
     @RequestMapping("/list")
     public PageDto list(@RequestBody PageDto pageDto) {//@RequestBody接收表单的形式，不加接收的是json流的方式
         LOG.info("pageDto: {}", pageDto);
         chapterService.list(pageDto);
         return pageDto;
+    }
+
+    // 新增大章
+    @RequestMapping("/save")
+    public ChapterDto save(@RequestBody ChapterDto chapterDto) {
+        LOG.info("chapterDto: {}", chapterDto);
+        chapterService.save(chapterDto);
+        return chapterDto;
     }
 }

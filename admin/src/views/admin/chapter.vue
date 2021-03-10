@@ -100,20 +100,20 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">名称</label>
                 <div class="col-sm-10">
-                  <input class="form-control" placeholder="名称">
+                  <input v-model="chapter.name" class="form-control" placeholder="名称">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">课程ID</label>
                 <div class="col-sm-10">
-                  <input class="form-control" placeholder="课程ID">
+                  <input v-model="chapter.courseId" class="form-control" placeholder="课程ID">
                 </div>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary">保存</button>
+            <button v-on:click="save()" type="button"  class="btn btn-primary">保存</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -128,7 +128,8 @@
     name: "chapter",
     data: function() {
       return {
-        chapters: []
+        chapter: {},//接收单个chapter
+        chapters: [] //接收chapter的数组
       }
     },
     mounted: function() {
@@ -140,11 +141,20 @@
       // 前后端数据交互
     },
     methods: {
+
+      /**
+       * 添加模态框
+       */
       add() {
         let _this = this;
         // 第一个modal是css选择器，模态框代码里有class="modal",是modal()方法里的是内置方法，弹出关闭模态框hide，show
         $(".modal").modal({backdrop:"static"}, "show");
       },
+
+      /**
+       * 展示分页
+       * @param page
+       */
       list(page) {
         let _this = this;
         _this.$ajax.post('http://127.0.0.1:9000/business/admin/chapter/list', {
@@ -154,6 +164,14 @@
           console.log("查询大章列表结果:", response);
           _this.chapters = response.data.list;
           _this.$refs.pagination.render(page, response.data.total);//重现渲染组件
+        })
+      },
+
+      save() {
+        let _this = this;
+        _this.$ajax.post('http://127.0.0.1:9000/business/admin/chapter/save',
+        _this.chapter).then((response)=>{
+          console.log("保存新增大章:", response);
         })
       }
     }
