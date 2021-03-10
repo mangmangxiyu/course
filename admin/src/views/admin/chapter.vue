@@ -88,7 +88,7 @@
       </tbody>
     </table>
 
-    <div class="modal fade" tabindex="-1" role="dialog">
+    <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -148,7 +148,8 @@
       add() {
         let _this = this;
         // 第一个modal是css选择器，模态框代码里有class="modal",是modal()方法里的是内置方法，弹出关闭模态框hide，show
-        $(".modal").modal({backdrop:"static"}, "show");
+        $("#form-modal").modal({backdrop:"static"}, "show"); // 点空白不会关闭
+        // $("#form-modal").modal("show"); // 点空白会关闭
       },
 
       /**
@@ -162,8 +163,9 @@
           size: _this.$refs.pagination.size, // $refs获取子组件（根绝pagination这个名字）
         }).then((response)=>{
           console.log("查询大章列表结果:", response);
-          _this.chapters = response.data.list;
-          _this.$refs.pagination.render(page, response.data.total);//重现渲染组件
+          let resp = response.data;
+          _this.chapters = resp.content.list;
+          _this.$refs.pagination.render(page, resp.content.total);//重现渲染组件
         })
       },
 
@@ -171,7 +173,13 @@
         let _this = this;
         _this.$ajax.post('http://127.0.0.1:9000/business/admin/chapter/save',
         _this.chapter).then((response)=>{
-          console.log("保存新增大章:", response);
+          let resp = response.data;
+          if (resp.success) {
+            console.log("保存新增大章:", resp);
+            $("#form-modal").modal("hide");
+            _this.list(1);
+          }
+
         })
       }
     }
