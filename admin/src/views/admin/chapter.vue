@@ -163,8 +163,10 @@
           cancelButtonColor: '#d33',
           confirmButtonText: '确认删除!'
         }).then((result) => {
+          Loading.show();
           if (result.isConfirmed) {
             _this.$ajax.delete('http://127.0.0.1:9000/business/admin/chapter/delete/' + id).then((response)=>{
+              Loading.hide();
               console.log("删除大章列表", response);
               let resp = response.data;
               if (resp.success) {
@@ -187,10 +189,12 @@
        */
       list(page) {
         let _this = this;
+        Loading.show();
         _this.$ajax.post('http://127.0.0.1:9000/business/admin/chapter/list', {
           page: page,
           size: _this.$refs.pagination.size, // $refs获取子组件（根绝pagination这个名字）
         }).then((response)=>{
+          Loading.hide();
           console.log("查询大章列表结果:", response);
           let resp = response.data;
           _this.chapters = resp.content.list;
@@ -200,8 +204,10 @@
 
       save() {
         let _this = this;
+        Loading.show();
         _this.$ajax.post('http://127.0.0.1:9000/business/admin/chapter/save',
         _this.chapter).then((response)=>{
+          Loading.hide();
           console.log("保存新增大章:", response);
           let resp = response.data;
           if (resp.success) {
