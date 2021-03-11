@@ -169,11 +169,12 @@
               let resp = response.data;
               if (resp.success) {
                 _this.list(1);
-                Swal.fire(
-                  '删除成功!',
-                  '删除成功.',
-                  'success'
-                )
+                toast.success("删除成功！");
+                // Swal.fire(
+                //   '删除成功!',
+                //   '删除成功.',
+                //   'success'
+                // )
               }
             });
           }
@@ -201,11 +202,12 @@
         let _this = this;
         _this.$ajax.post('http://127.0.0.1:9000/business/admin/chapter/save',
         _this.chapter).then((response)=>{
+          console.log("保存新增大章:", response);
           let resp = response.data;
           if (resp.success) {
-            console.log("保存新增大章:", resp);
             $("#form-modal").modal("hide");
             _this.list(1);
+            toast.success("保存成功！");
           }
 
         })
