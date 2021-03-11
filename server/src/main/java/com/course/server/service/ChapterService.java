@@ -20,6 +20,7 @@ import com.course.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -60,11 +61,34 @@ public class ChapterService {
     }
 
     // 新增大章
-    public void save(ChapterDto chapterDao) {
-        chapterDao.setId(UuidUtil.getShortUuid());
+    public void save1(ChapterDto chapterDto) {
+        chapterDto.setId(UuidUtil.getShortUuid());
 //        Chapter chapter = new Chapter();
-//        BeanUtils.copyProperties(chapterDao, chapter);
-        Chapter chapter = CopyUtil.copy(chapterDao, Chapter.class);
+//        BeanUtils.copyProperties(chapterDto, chapter);
+        Chapter chapter = CopyUtil.copy(chapterDto, Chapter.class);
         chapterMapper.insert(chapter);
+    }
+
+    // 大章修改
+    public void save(ChapterDto chapterDto) {
+//        Chapter chapter = new Chapter();
+//        BeanUtils.copyProperties(chapterDto, chapter);
+        Chapter chapter = CopyUtil.copy(chapterDto, Chapter.class);
+        if (StringUtils.isEmpty(chapter.getId())) {
+            this.insert(chapter);
+        } else {
+            this.update(chapter);
+        }
+    }
+
+    // 新增大章
+    private void insert(Chapter chapter) {
+        chapter.setId(UuidUtil.getShortUuid());
+        chapterMapper.insert(chapter);
+    }
+
+    // 新增大章
+    private void update(Chapter chapter) {
+        chapterMapper.updateByPrimaryKey(chapter);
     }
 }

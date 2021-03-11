@@ -33,20 +33,11 @@
 
         <td>
           <div class="hidden-sm hidden-xs btn-group">
-            <button class="btn btn-xs btn-success">
-              <i class="ace-icon fa fa-check bigger-120"></i>
-            </button>
-
-            <button class="btn btn-xs btn-info">
+            <button v-on:click="edit(chapter)" class="btn btn-xs btn-info">
               <i class="ace-icon fa fa-pencil bigger-120"></i>
             </button>
-
-            <button class="btn btn-xs btn-danger">
+            <button v-on:click="edit(chapter)" class="btn btn-xs btn-danger">
               <i class="ace-icon fa fa-trash-o bigger-120"></i>
-            </button>
-
-            <button class="btn btn-xs btn-warning">
-              <i class="ace-icon fa fa-flag bigger-120"></i>
             </button>
           </div>
 
@@ -147,9 +138,18 @@
        */
       add() {
         let _this = this;
+        _this.chapter = {}; // 解决新增数据时模态框保留上次数据问题
         // 第一个modal是css选择器，模态框代码里有class="modal",是modal()方法里的是内置方法，弹出关闭模态框hide，show
         $("#form-modal").modal({backdrop:"static"}, "show"); // 点空白不会关闭
         // $("#form-modal").modal("show"); // 点空白会关闭
+      },
+
+      edit(chapter) {
+        let _this = this;
+        // vue中将表格行数据显示到表单，反过来也会的问题：$.extend({},chapter)解决(chapter,复制给空对象)
+        _this.chapter = $.extend({}, chapter); //vue中的_tis.chapter会通过v-modal属性和form表单做数据绑定
+        $("#form-modal").modal({backdrop:"static"}, "show"); // 点空白不会关闭
+
       },
 
       /**
