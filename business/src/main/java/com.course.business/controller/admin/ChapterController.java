@@ -18,9 +18,7 @@ import com.course.server.dto.ResponseDto;
 import com.course.server.service.ChapterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -42,7 +40,8 @@ public class ChapterController {
     private ChapterService chapterService;
 
     // 查询大章
-    @RequestMapping("/list")
+//    @RequestMapping("/list")
+    @PostMapping("/list") // 只支持post请求
     public ResponseDto list(@RequestBody PageDto pageDto) {//@RequestBody接收表单的形式，不加接收的是json流的方式
         LOG.info("pageDto: {}", pageDto);
         ResponseDto responseDto = new ResponseDto();
@@ -52,12 +51,23 @@ public class ChapterController {
     }
 
     // 新增大章
-    @RequestMapping("/save")
+//    @RequestMapping("/save")
+    @PostMapping("/save")
     public ResponseDto save(@RequestBody ChapterDto chapterDto) {
         LOG.info("chapterDto: {}", chapterDto);
         ResponseDto responseDto = new ResponseDto();
         chapterService.save(chapterDto);
         responseDto.setContent(chapterDto);
+        return responseDto;
+    }
+
+    // 新增大章
+//    @RequestMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
+    public ResponseDto delete(@PathVariable String id) {
+        LOG.info("id: {}", id);
+        ResponseDto responseDto = new ResponseDto();
+        chapterService.delete(id);
         return responseDto;
     }
 }
