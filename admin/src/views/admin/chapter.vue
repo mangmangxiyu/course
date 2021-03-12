@@ -213,7 +213,7 @@
       save() {
         let _this = this;
 
-        保存校验
+        // 保存校验
         if (!Validator.require(_this.chapter.name, "名称")
           || !Validator.require(_this.chapter.courseId, "课程ID")
           || !Validator.length(_this.chapter.courseId, "课程ID", 1, 8)) {
@@ -231,7 +231,7 @@
             _this.list(1);
             Toast.success("保存成功！");
           } else {
-            Toast.warning(resp.message);
+            Toast.warning(resp.message)
           }
         })
       }

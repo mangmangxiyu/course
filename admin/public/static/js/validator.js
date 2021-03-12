@@ -9,7 +9,7 @@ Validator = {
   },
 
   length: function (value, text, min, max,) {
-    if (!Tool.length(value, text, min, max)) {
+    if (!Tool.isLength(value, min, max)) {
       Toast.warning(text + "长度：" + min + "～" + max + "位");
       return false;
     } else {

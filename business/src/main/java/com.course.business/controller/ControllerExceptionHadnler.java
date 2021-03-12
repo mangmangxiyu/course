@@ -37,7 +37,7 @@ public class ControllerExceptionHadnler {
         ResponseDto responseDto = new ResponseDto();
         responseDto.setSuccess(false);
         LOG.warn(e.getMessage());
-        responseDto.setMessage("请求参数异常");// 如果开发过程中直接抛出请求参数异常说明未进行前端校验进行补充
+        responseDto.setMessage("请求参数异常!");// 如果开发过程中直接抛出请求参数异常说明未进行前端校验进行补充
         //responseDto.setMessage(e.getMessage());// 校验里抛出异常的文本
         return responseDto;
     }
