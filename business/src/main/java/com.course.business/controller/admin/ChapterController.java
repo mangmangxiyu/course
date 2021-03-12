@@ -16,6 +16,7 @@ import com.course.server.dto.ChapterDto;
 import com.course.server.dto.PageDto;
 import com.course.server.dto.ResponseDto;
 import com.course.server.service.ChapterService;
+import com.course.server.util.ValidatorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +56,23 @@ public class ChapterController {
     @PostMapping("/save")
     public ResponseDto save(@RequestBody ChapterDto chapterDto) {
         LOG.info("chapterDto: {}", chapterDto);
+
+        /*try {*//* 加try处理空值递交后页面一直loading的图标，必须刷新页面才能解决的bug。
+            后端出异常导致前后收不到结果，vue中.then()没有执行 ，等待框没有关闭导致不能继续任何操作，只能刷新页面*//*
+            // 保存前进行数据校验
+            ValidatorUtil.require(chapterDto.getName(), "名称");
+            ValidatorUtil.require(chapterDto.getCourseId(), "课程ID");
+            ValidatorUtil.length(chapterDto.getCourseId(), "课程ID", 1, 8);
+        } catch (ValidatorException e) {
+            ResponseDto responseDto = new ResponseDto();
+            responseDto.setSuccess(false);
+            responseDto.setMessage(e.getMessage());// 校验里抛出异常的文本
+
+        }*/
+        ValidatorUtil.require(chapterDto.getName(), "名称");
+        ValidatorUtil.require(chapterDto.getCourseId(), "课程ID");
+        ValidatorUtil.length(chapterDto.getCourseId(), "课程ID", 1, 8);
+
         ResponseDto responseDto = new ResponseDto();
         chapterService.save(chapterDto);
         responseDto.setContent(chapterDto);
