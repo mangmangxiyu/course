@@ -14,6 +14,7 @@ import com.course.generator.util.FreemakerUtil;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * 〈一句话功能简述〉<br> 
@@ -25,10 +26,16 @@ import java.io.IOException;
  */
 public class ServerGenerator {
 
-    static String toPath = "generator\\src\\main\\java\\com\\course\\generator\\server\\";
+    static String toServicePath = "server\\src\\main\\java\\com\\course\\server\\service\\";
 
     public static void main(String[] args) throws IOException, TemplateException {
-        FreemakerUtil.initConfig("test.ftl");
-        FreemakerUtil.generator(toPath + "Test.java");
+        String Domain = "Section";
+        String domain = "section";
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("Domain", Domain);
+        map.put("domain", domain);
+        FreemakerUtil.initConfig("service.ftl");
+        FreemakerUtil.generator(toServicePath + Domain + "Service.java", map);
     }
 }
