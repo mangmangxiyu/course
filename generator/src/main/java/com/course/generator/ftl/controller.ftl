@@ -8,7 +8,7 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package com.course.business.controller.admin;/**
+package com.course.${module}.controller.admin;/**
  * Created by 111 on 2021/3/3.
  */
 
@@ -36,7 +36,7 @@ import javax.annotation.Resource;
 public class ${Domain}Controller {
 
     private static final Logger LOG = LoggerFactory.getLogger(${Domain}Controller.class);
-    public static final String BUSINESS_NAME = "大章";
+    public static final String BUSINESS_NAME = "${tableNameCn}";
     @Resource
     private ${Domain}Service ${domain}Service;
 
