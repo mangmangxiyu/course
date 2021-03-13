@@ -1,6 +1,6 @@
 /**
  * Copyright (C), 2015-2021, XXX有限公司
- * FileName: FreemakerUtil
+ * FileName: FreemarkerUtil
  * Author:   111
  * Date:     2021/3/13 17:35
  * Description: freemarker代码生成生成器抽象成工具类
@@ -29,7 +29,7 @@ import java.util.Map;
  * @create 2021/3/13
  * @since 1.0.0
  */
-public class FreemakerUtil {
+public class FreemarkerUtil {
 
     static String ftlPath = "generator\\src\\main\\java\\com\\course\\generator\\ftl\\";
 
