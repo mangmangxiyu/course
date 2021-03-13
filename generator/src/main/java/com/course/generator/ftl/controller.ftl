@@ -1,6 +1,6 @@
 /**
  * Copyright (C), 2015-2021, XXX有限公司
- * FileName: ChapterController
+ * FileName: ${Domain}Controller
  * Author:   111
  * Date:     2021/3/3 13:17
  * Description:
@@ -12,10 +12,10 @@ package com.course.business.controller.admin;/**
  * Created by 111 on 2021/3/3.
  */
 
-import com.course.server.dto.ChapterDto;
+import com.course.server.dto.${Domain}Dto;
 import com.course.server.dto.PageDto;
 import com.course.server.dto.ResponseDto;
-import com.course.server.service.ChapterService;
+import com.course.server.service.${Domain}Service;
 import com.course.server.util.ValidatorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,14 +31,14 @@ import javax.annotation.Resource;
  * @create 2021/3/3
  * @since 1.0.0
  */
-@RequestMapping("/admin/chapter")
+@RequestMapping("/admin/${domain}")
 @RestController
-public class ChapterController {
+public class ${Domain}Controller {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ChapterController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(${Domain}Controller.class);
     public static final String BUSINESS_NAME = "大章";
     @Resource
-    private ChapterService chapterService;
+    private ${Domain}Service ${domain}Service;
 
     /**
      *  列表查询
@@ -48,28 +48,25 @@ public class ChapterController {
     @PostMapping("/list") // 只支持post请求
     public ResponseDto list(@RequestBody PageDto pageDto) {//@RequestBody接收表单的形式，不加接收的是json流的方式
         ResponseDto responseDto = new ResponseDto();
-        chapterService.list(pageDto);
+        ${domain}Service.list(pageDto);
         responseDto.setContent(pageDto);
         return responseDto;
     }
 
     /**
      * 保存，id有值时更新，无值是新增
-     * @param chapterDto
+     * @param ${domain}Dto
      * @return responseDto
      */
 //    @RequestMapping("/save")
     @PostMapping("/save")
-    public ResponseDto save(@RequestBody ChapterDto chapterDto) {
+    public ResponseDto save(@RequestBody ${Domain}Dto ${domain}Dto) {
 
         // 保存的有效性校验
-        ValidatorUtil.require(chapterDto.getName(), "名称");
-        ValidatorUtil.require(chapterDto.getCourseId(), "课程ID");
-        ValidatorUtil.length(chapterDto.getCourseId(), "课程ID", 1, 8);
 
         ResponseDto responseDto = new ResponseDto();
-        chapterService.save(chapterDto);
-        responseDto.setContent(chapterDto);
+        ${domain}Service.save(${domain}Dto);
+        responseDto.setContent(${domain}Dto);
         return responseDto;
     }
 
@@ -81,7 +78,7 @@ public class ChapterController {
     @DeleteMapping("/delete/{id}")
     public ResponseDto delete(@PathVariable String id) {
         ResponseDto responseDto = new ResponseDto();
-        chapterService.delete(id);
+        ${domain}Service.delete(id);
         return responseDto;
     }
 }

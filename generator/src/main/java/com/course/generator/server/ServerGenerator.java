@@ -27,15 +27,21 @@ import java.util.HashMap;
 public class ServerGenerator {
 
     static String toServicePath = "server\\src\\main\\java\\com\\course\\server\\service\\";
+    static String toControllerPath = "business\\src\\main\\java\\com.course.business\\controller\\admin\\";
 
     public static void main(String[] args) throws IOException, TemplateException {
         String Domain = "Section";
         String domain = "section";
-
         HashMap<String, Object> map = new HashMap<>();
         map.put("Domain", Domain);
         map.put("domain", domain);
+
+        // 生成service的代码
         FreemakerUtil.initConfig("service.ftl");
         FreemakerUtil.generator(toServicePath + Domain + "Service.java", map);
+
+        // 生成controller的代码
+        FreemakerUtil.initConfig("controller.ftl");
+        FreemakerUtil.generator(toControllerPath + Domain + "Controller.java", map);
     }
 }
