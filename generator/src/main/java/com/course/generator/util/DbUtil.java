@@ -78,6 +78,14 @@ public class DbUtil {
                 } else {
                     field.setNameCn(comment);
                 }
+                field.setNullAble("YES".equals(nullAble));
+                if (type.toUpperCase().contains("varchar".toUpperCase())) {
+                    String lengthStr = type.substring(type.indexOf("(") + 1, type.length() - 1);
+                    field.setLength(Integer.valueOf(lengthStr));
+                } else {
+                    field.setLength(0); // 非varchar类型不做长度校验（char是下拉框选择的数据，不是手动输入）
+                }
+
                 fieldList.add(field);
             }
         }

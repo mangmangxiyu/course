@@ -1,13 +1,12 @@
 package com.course.server.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class SectionDto {
 
     /**
-     * id
+     * ID
      */
     private String id;
 
