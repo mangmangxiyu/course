@@ -38,7 +38,7 @@ insert into `chapter` (id, course_id, name) values ('00000014', '00000000', '测
 -- 小节
 drop table if exists `section`;
 create table `section` (
-  `id` char(8) not null default '' comment 'id',
+  `id` char(8) not null default '' comment 'ID',
   `title` varchar(50) not null comment '标题',
   `course_id` char(8) comment '课程|course.id',
   `chapter_id` char(8) comment '大章|chapter.id',
