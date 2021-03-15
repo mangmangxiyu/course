@@ -162,7 +162,7 @@
       return {
         section: {},//接收单个section
         sections: [], //接收section的数组
-        CHARGE: [{key:"C", value:"收费"},{key:"F", value:"免费"}]
+        CHARGE: CHARGE
       }
     },
     mounted: function() {
