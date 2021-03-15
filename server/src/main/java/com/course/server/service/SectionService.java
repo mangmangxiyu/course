@@ -19,6 +19,7 @@ import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import enums.SectionChargeEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -80,6 +81,7 @@ public class SectionService {
         section.setCreatedAt(now);
         section.setUpdatedAt(now);
         section.setId(UuidUtil.getShortUuid());
+        section.setCharge(SectionChargeEnum.CHARGE.getCode());
         sectionMapper.insert(section);
     }
 
