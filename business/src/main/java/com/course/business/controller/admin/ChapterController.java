@@ -13,7 +13,7 @@ package com.course.business.controller.admin;/**
  */
 
 import com.course.server.dto.ChapterDto;
-import com.course.server.dto.PageDto;
+import com.course.server.dto.ChapterPageDto;
 import com.course.server.dto.ResponseDto;
 import com.course.server.service.ChapterService;
 import com.course.server.util.ValidatorUtil;
@@ -42,14 +42,15 @@ public class ChapterController {
 
     /**
      *  列表查询
-     * @param pageDto
+     * @param chapterPageDto
      * @return responseDto
      */
     @PostMapping("/list") // 只支持post请求
-    public ResponseDto list(@RequestBody PageDto pageDto) {//@RequestBody接收表单的形式，不加接收的是json流的方式
+    public ResponseDto list(@RequestBody ChapterPageDto chapterPageDto) {//@RequestBody接收表单的形式，不加接收的是json流的方式
         ResponseDto responseDto = new ResponseDto();
-        chapterService.list(pageDto);
-        responseDto.setContent(pageDto);
+        ValidatorUtil.require(chapterPageDto.getCourseId(), "课程ID");// 增加的校验
+        chapterService.list(chapterPageDto);
+        responseDto.setContent(chapterPageDto);
         return responseDto;
     }
 
