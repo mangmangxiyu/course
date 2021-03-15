@@ -192,7 +192,7 @@
         courses: [], //接收course的数组
         COURSE_LEVEL: COURSE_LEVEL,
         COURSE_CHARGE: COURSE_CHARGE,
-        COURSE_STATUS: COURSE_STATUS
+        COURSE_STATUS: COURSE_STATUS,
       }
     },
     mounted: function() {

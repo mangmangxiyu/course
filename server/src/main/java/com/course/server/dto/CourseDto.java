@@ -1,8 +1,9 @@
 package com.course.server.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class CourseDto {
 
@@ -37,17 +38,17 @@ public class CourseDto {
     private String image;
 
     /**
-     * 级别|ONE("1", "初级"),TWO("2", "中级"),THREE("3", "高级")
+     * 级别|枚举[CourseLevelEnum]：ONE("1", "初级"),TWO("2", "中级"),THREE("3", "高级")
      */
     private String level;
 
     /**
-     * 收费|CHARGE("C", "收费"),FREE("F", "免费")
+     * 收费|枚举[CourseChargeEnum]：CHARGE("C", "收费"),FREE("F", "免费")
      */
     private String charge;
 
     /**
-     * 状态|PUBLISH("P", "发布"),DRAFT("D", "草稿")
+     * 状态|枚举[CourseStatusEnum]：PUBLISH("P", "发布"),DRAFT("D", "草稿")
      */
     private String status;
 
