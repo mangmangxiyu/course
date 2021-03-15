@@ -175,8 +175,8 @@
       // this.$parent().activeSidebar("business-section-sidebar")
       let _this = this;
       _this.$refs.pagination.size = 5;
-      let course = SessionStorage.get(SESSION_KEY_COURSE) || {};
-      let chapter = SessionStorage.get(SESSION_KEY_CHAPTER) || {};
+      let course = SessionStorage.get("course") || {};
+      let chapter = SessionStorage.get("chapter") || {};
       if (Tool.isEmpty(course) || Tool.isEmpty(chapter)) {
         _this.$router.push("/welcome");
       }
@@ -239,7 +239,7 @@
           // console.log("查询小节列表结果:", response);
           let resp = response.data;
           _this.sections = resp.content.list;
-          _this.$refs.pagination.render(page, resp.content.total);//重现渲染组件
+          _this.$refs.pagination.render(page, resp.content.total);//重新渲染组件
         })
       },
 
@@ -255,8 +255,8 @@
         ) {
           return;
         }
-        _this.section.courseId = _this.courseId;
-        _this.section.chapterId = _this.chapterId;
+        _this.section.courseId = _this.course.id;
+        _this.section.chapterId = _this.chapter.id;
 
         Loading.show();
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/save',

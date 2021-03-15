@@ -143,7 +143,7 @@
       // this.$parent().activeSidebar("business-chapter-sidebar")
       let _this = this;
       _this.$refs.pagination.size = 5;
-      let course = SessionStorage.get(SESSION_KEY_COURSE) || {};
+      let course = SessionStorage.get("course") || {};
       if (Tool.isEmpty(course)) {
         _this.$router.push("/welcome");
       }
@@ -237,7 +237,7 @@
       /**
        * 点击【小节】
        */
-      toChapter(chapter) {
+      toSection(chapter) {
         let _this = this;
         SessionStorage.set("chapter", chapter);
         _this.$router.push("/business/section");

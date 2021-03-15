@@ -339,7 +339,7 @@
        */
       toChapter(course) {
         let _this = this;
-        SessionStorage.set(SESSION_KEY_COURSE, course);
+        SessionStorage.set("course", course);
         _this.$router.push("/business/chapter");
       },
     }
