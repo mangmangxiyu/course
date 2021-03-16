@@ -165,6 +165,9 @@
         // $("#form-modal").modal("show"); // 点空白会关闭
       },
 
+      /**
+       * 点击【编辑】
+       * */
       edit(${domain}) {
         let _this = this;
         // vue中将表格行数据显示到表单，反过来也会的问题：$.extend({},${domain})解决(${domain},复制给空对象)
