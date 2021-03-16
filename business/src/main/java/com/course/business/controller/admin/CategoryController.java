@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -42,14 +43,14 @@ public class CategoryController {
 
     /**
      *  列表查询
-     * @param pageDto
+     * @param null
      * @return responseDto
      */
-    @PostMapping("/list") // 只支持post请求
-    public ResponseDto list(@RequestBody PageDto pageDto) {//@RequestBody接收表单的形式，不加接收的是json流的方式
+    @PostMapping("/all") // 只支持post请求
+    public ResponseDto all() {//@RequestBody接收表单的形式，不加接收的是json流的方式
         ResponseDto responseDto = new ResponseDto();
-        categoryService.list(pageDto);
-        responseDto.setContent(pageDto);
+        List<CategoryDto> categoryDtoList = categoryService.all();
+        responseDto.setContent(categoryDtoList);
         return responseDto;
     }
 

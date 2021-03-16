@@ -193,7 +193,7 @@
        * 列表查询展示分页
        * @param page
        */
-      list(page) {
+      list() {
         let _this = this;
         Loading.show();
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/${module}/admin/${domain}/list', {
