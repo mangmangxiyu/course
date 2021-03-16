@@ -41,6 +41,9 @@ public class SectionService {
     @Resource
     private SectionMapper sectionMapper;
 
+    @Resource
+    private CourseService courseService;
+
     // 前端传递过来的类再重新获取返回void关键字
 
     /**
@@ -78,6 +81,7 @@ public class SectionService {
         } else {
             this.update(section);
         }
+        courseService.updateTime(sectionDto.getCourseId());
     }
 
     /**

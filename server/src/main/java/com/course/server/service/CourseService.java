@@ -15,16 +15,19 @@ import com.course.server.domain.CourseExample;
 import com.course.server.dto.CourseDto;
 import com.course.server.dto.PageDto;
 import com.course.server.mapper.CourseMapper;
+import com.course.server.mapper.my.MyCourseMapper;
 import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -36,9 +39,14 @@ import java.util.Date;
  */
 @Service
 public class CourseService {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(CourseService.class);
 
     @Resource
     private CourseMapper courseMapper;
+
+    @Resource
+    private MyCourseMapper myCourseMapper;
 
     // 前端传递过来的类再重新获取返回void关键字
 
@@ -98,5 +106,14 @@ public class CourseService {
      */
     public void delete(String id) {
         courseMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * 更新时长
+     * @param courseId
+     */
+    public void updateTime(String courseId) {
+        LOG.info("更新课程时长：{}", courseId);
+        myCourseMapper.updateTime(courseId);
     }
 }
