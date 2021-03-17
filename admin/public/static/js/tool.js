@@ -34,7 +34,7 @@ Tool = {
     }
     const option = {
       "y+": date.getFullYear().toString(),        // 年
-      "M+": (date.getMonth() + 1).toString(),     // 月
+      "M+": (date.getMonth() + 1).toString(),     // 月(月份要+1=正确月份)
       "d+": date.getDate().toString(),            // 日
       "h+": date.getHours().toString(),           // 时
       "m+": date.getMinutes().toString(),         // 分
