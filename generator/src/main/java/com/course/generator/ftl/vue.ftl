@@ -145,12 +145,12 @@
       }
     },
     mounted: function() {
-      // 子组件调用父组件的方法 sidebar激活样式方法一
-      // this.$parent().activeSidebar("${module}-${domain}-sidebar")
       let _this = this;
       _this.$refs.pagination.size = 5;
       _this.list(1);
       // 前后端数据交互
+      // 子组件调用父组件的方法 sidebar激活样式方法一
+      // this.$parent().activeSidebar("${module}-${domain}-sidebar")
     },
     methods: {
 
