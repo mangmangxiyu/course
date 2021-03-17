@@ -48,6 +48,9 @@ public class CourseService {
     @Resource
     private MyCourseMapper myCourseMapper;
 
+    @Resource
+    private CourseCategoryService courseCategoryService;
+
     // 前端传递过来的类再重新获取返回void关键字
 
     /**
@@ -77,6 +80,9 @@ public class CourseService {
         } else {
             this.update(course);
         }
+
+        // 批量保存课程,请求参数也可以编程一个courseDto
+        courseCategoryService.saveBatch(courseDto.getId(), courseDto.getCategorys());
     }
 
     /**

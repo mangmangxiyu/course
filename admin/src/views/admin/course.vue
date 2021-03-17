@@ -169,6 +169,7 @@
         COURSE_CHARGE: COURSE_CHARGE,
         COURSE_STATUS: COURSE_STATUS,
         categorys: [],
+        tree: {},
       }
     },
     mounted: function() {
@@ -176,7 +177,6 @@
       // this.$parent().activeSidebar("business-course-sidebar")
       let _this = this;
       _this.$refs.pagination.size = 5;
-      _this.initTree();
       _this.allCategory();
       _this.list(1);
       // 前后端数据交互
@@ -238,7 +238,7 @@
       },
 
       /**点击保存**/
-      save() {
+      save(page) {
         let _this = this;
 
         // 保存校验
@@ -250,6 +250,14 @@
         ) {
           return;
         }
+
+        let categorys = _this.tree.getCheckedNodes();
+        if (Tool.isEmpty(categorys)) {
+          Toast.warning("请选择分类！");
+          return;
+        }
+        // console.log(categorys);
+        _this.course.categorys = categorys;//问题cours中categorys=null问题点
 
         Loading.show();
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/save',
@@ -282,8 +290,7 @@
           Loading.hide();
           let resp = response.data;
           _this.categorys = resp.content;
-
-          _this.initTree();
+          _this.initTree();// 查到category再init
         })
       },
 
@@ -305,7 +312,8 @@
 
         let zNodes =  _this.categorys;
 
-        $.fn.zTree.init($("#tree"), setting, zNodes);
+        _this.tree = $.fn.zTree.init($("#tree"), setting, zNodes);
+
 
         // 展开所有的节点
         // _this.tree.expandAll(true);
