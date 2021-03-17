@@ -12,9 +12,11 @@ package com.course.business.controller.admin;/**
  * Created by 111 on 2021/3/3.
  */
 
+import com.course.server.dto.CourseCategoryDto;
 import com.course.server.dto.CourseDto;
 import com.course.server.dto.PageDto;
 import com.course.server.dto.ResponseDto;
+import com.course.server.service.CourseCategoryService;
 import com.course.server.service.CourseService;
 import com.course.server.util.ValidatorUtil;
 import org.slf4j.Logger;
@@ -22,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -37,8 +40,12 @@ public class CourseController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CourseController.class);
     public static final String BUSINESS_NAME = "课程";
+
     @Resource
     private CourseService courseService;
+
+    @Resource
+    private CourseCategoryService courseCategoryService;
 
     /**
      *  列表查询
@@ -83,6 +90,18 @@ public class CourseController {
     public ResponseDto delete(@PathVariable String id) {
         ResponseDto responseDto = new ResponseDto();
         courseService.delete(id);
+        return responseDto;
+    }
+
+    /**
+     * 查询课程下所有分类
+     * @param courseId
+     */
+    @PostMapping("/list-category/{courseId}")
+    public ResponseDto listCategory(@PathVariable("courseId") String courseId) {
+        ResponseDto responseDto = new ResponseDto();
+        List<CourseCategoryDto> dtoList = courseCategoryService.listByCourse(courseId);
+        responseDto.setContent(dtoList);
         return responseDto;
     }
 }

@@ -189,15 +189,14 @@
       add() {
         let _this = this;
         _this.course = {}; // 解决新增数据时模态框保留上次数据问题
-        // 第一个modal是css选择器，模态框代码里有class="modal",是modal()方法里的是内置方法，弹出关闭模态框hide，show
+        _this.tree.checkAllNodes(false);
         $("#form-modal").modal({backdrop:"static"}, "show"); // 点空白不会关闭
-        // $("#form-modal").modal("show"); // 点空白会关闭
       },
 
       edit(course) {
         let _this = this;
-        // vue中将表格行数据显示到表单，反过来也会的问题：$.extend({},course)解决(course,复制给空对象)
         _this.course = $.extend({}, course); //vue中的_tis.course会通过v-modal属性和form表单做数据绑定
+        _this.listCategory(course.id);
         $("#form-modal").modal({backdrop:"static"}, "show"); // 点空白不会关闭
 
       },
@@ -314,10 +313,26 @@
 
         _this.tree = $.fn.zTree.init($("#tree"), setting, zNodes);
 
-
         // 展开所有的节点
         // _this.tree.expandAll(true);
-      }
+      },
+      listCategory(courseId) {
+        let _this = this;
+        Loading.show();
+        _this.$ajax.post(process.env.VUE_APP_SERVER + "/business/admin/course/list-category/" + courseId).then((response)=>{
+          Loading.hide();
+          console.log("查找课程下所有分类结果：",response);
+          let resp = response.data;
+          let categorys = resp.content;
+
+          // 勾选查询到的分类
+          _this.tree.checkAllNodes(false);
+          for (let i = 0; i < categorys.length; i++) {
+            let node = _this.tree.getNodeByParam("id", categorys[i].categoryId);
+            _this.tree.checkNode(node, true);
+          }
+        })
+      },
     }
   }
 </script>
