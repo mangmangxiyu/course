@@ -84,11 +84,10 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">头像</label>
                 <div class="col-sm-10">
-                  <button type="button" v-on:click="selectImage()" class="btn btn-white btn-default btn-round">
-                    <i class="ace-icon fa fa-upload"></i>
-                    新增
-                  </button>
-                  <input class="hidden" ref="file" id="file-upload-input" type="file" v-on:change="uploadImage()">
+                  <file v-bind:id="'image-upload'"
+                        v-bind:text="'上传头像'"
+                        v-bind:suffixs="['jpg', 'jpeg', 'png']"
+                        v-bind:after-upload="afterUpload"></file>
                   <div v-show="teacher.image" class="row">
                     <div class="col-md-4">
                       <img v-bind:src="teacher.image" class="img-responsive">
@@ -128,8 +127,9 @@
 
 <script>
   import Pagination from "../../components/pagination";
+  import File from "../../components/file";
   export default {
-    components: {Pagination},
+    components: {Pagination, File},
     name: "business-teacher",
     data: function() {
       return {
@@ -235,44 +235,11 @@
           }
         })
       },
-      uploadImage() {
+
+      afterUpload(resp) {
         let _this = this;
-        let formDate = new window.FormData();
-        let file = _this.$refs.file.files[0];
-
-        // 文件校验,判断文件格式
-        let suffixs = ["jpg", "jpeg", "png"];
-        let fileName = file.name;
-        let suffix = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase();
-        let validateSuffix = false;
-        for (let i = 0; i < suffixs.length; i++) {
-          if (suffixs[i].toLowerCase() === suffix){
-            validateSuffix = true;
-            break;
-          }
-        }
-        if (!validateSuffix) {
-          Toast.warning("文件格式不正确！只支持上传：" + suffixs.join(","));
-          return;
-        }
-
-
-        // formDate.append('file', document.querySelector('#file-upload-input').files[0]);// (变量，值)
-        // key:"file"必须和后端controller的参数名一致
-        formDate.append('file', file);
-        Loading.show();
-        _this.$ajax.post(process.env.VUE_APP_SERVER + '/file/admin/upload', formDate).then((response)=>{
-          Loading.hide();
-          let resp = response.data;
-          let image = resp.content;
-          console.info("头像地址：", image);
-          _this.teacher.image = image;
-        });
-      },
-
-      // 按钮点击触发选择上传图片功能
-      selectImage() {
-        $("#file-upload-input").trigger("click");
+        let image = resp.content;
+        _this.teacher.image = image;
       }
     }
   }
