@@ -396,10 +396,8 @@
             <a href="#" class="dropdown-toggle">
               <i class="menu-icon fa fa-list"></i>
               <span class="menu-text"> 业务管理 </span>
-
               <b class="arrow fa fa-angle-down"></b>
             </a>
-
             <b class="arrow"></b>
 
             <ul class="submenu">
@@ -408,7 +406,6 @@
                   <i class="menu-icon fa fa-caret-right"></i>
                   分类管理
                 </router-link>
-
                 <b class="arrow"></b>
               </li>
               <li class="active" id="business-course-sidebar">
@@ -419,22 +416,14 @@
 
                 <b class="arrow"></b>
               </li>
-              <!--<li class="active" id="business-chapter-sidebar">-->
-                <!--<router-link to="/business/chapter">-->
-                  <!--<i class="menu-icon fa fa-caret-right"></i>-->
-                  <!--大章管理-->
-                <!--</router-link>-->
+              <li class="active" id="business-teacher-sidebar">
+                <router-link to="/business/teacher">
+                  <i class="menu-icon fa fa-caret-right"></i>
+                  讲师管理
+                </router-link>
 
-                <!--<b class="arrow"></b>-->
-              <!--</li>-->
-              <!--<li class="active" id="business-section-sidebar">-->
-                <!--<router-link to="/business/section">-->
-                  <!--<i class="menu-icon fa fa-caret-right"></i>-->
-                  <!--小节管理-->
-                <!--</router-link>-->
-
-                <!--<b class="arrow"></b>-->
-              <!--</li>-->
+                <b class="arrow"></b>
+              </li>
             </ul>
           </li>
         </ul><!-- /.nav-list -->

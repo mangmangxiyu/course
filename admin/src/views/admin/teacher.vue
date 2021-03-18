@@ -12,38 +12,38 @@
       </button>
     </p>
 
-    <!--组件的位置并进行渲染:第一个list组件内部定义的回调方法，第二个是${domain}组件的方法list-->
+    <!--组件的位置并进行渲染:第一个list组件内部定义的回调方法，第二个是teacher组件的方法list-->
     <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
 
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
       <tr>
-        <#list fieldList as field>
-        <#if field.nameHump!="createdAt" && field.nameHump!="updatedAt">
-        <th>${field.nameCn}</th>
-        </#if>
-        </#list>
+        <th>id</th>
+        <th>姓名</th>
+        <th>昵称</th>
+        <th>头像</th>
+        <th>职位</th>
+        <th>座右铭</th>
+        <th>简介</th>
         <th>操作</th>
       </tr>
       </thead>
 
       <tbody>
-      <tr v-for="${domain} in ${domain}s">
-        <#list fieldList as field>
-          <#if field.nameHump!="createdAt" && field.nameHump!="updatedAt">
-            <#if field.enums>
-        <td>{{${field.enumsConst} | optionKV(${domain}.${field.nameHump})}}</td>
-            <#else>
-        <td>{{${domain}.${field.nameHump}}}</td>
-            </#if>
-          </#if>
-        </#list>
+      <tr v-for="teacher in teachers">
+        <td>{{teacher.id}}</td>
+        <td>{{teacher.name}}</td>
+        <td>{{teacher.nickname}}</td>
+        <td>{{teacher.image}}</td>
+        <td>{{teacher.position}}</td>
+        <td>{{teacher.motto}}</td>
+        <td>{{teacher.intro}}</td>
       <td>
         <div class="hidden-sm hidden-xs btn-group">
-          <button v-on:click="edit(${domain})" class="btn btn-xs btn-info">
+          <button v-on:click="edit(teacher)" class="btn btn-xs btn-info">
             <i class="ace-icon fa fa-pencil bigger-120"></i>
           </button>
-          <button v-on:click="del(${domain}.id)" class="btn btn-xs btn-danger">
+          <button v-on:click="del(teacher.id)" class="btn btn-xs btn-danger">
             <i class="ace-icon fa fa-trash-o bigger-120"></i>
           </button>
         </div>
@@ -95,27 +95,42 @@
           </div>
           <div class="modal-body">
             <form class="form-horizontal">
-              <#list fieldList as field>
-                <#if field.name!="id" && field.nameHump!="createdAt" && field.nameHump!="updatedAt">
-                  <#if field.enums>
               <div class="form-group">
-                <label class="col-sm-2 control-label">${field.nameCn}</label>
+                <label class="col-sm-2 control-label">姓名</label>
                 <div class="col-sm-10">
-                  <select v-model="${domain}.${field.nameHump}" class="form-control">
-                    <option v-for="o in ${field.enumsConst}" v-bind:value="o.key">{{o.value}}</option>
-                  </select>
+                  <input v-model="teacher.name" class="form-control">
                 </div>
               </div>
-                  <#else>
               <div class="form-group">
-                <label class="col-sm-2 control-label">${field.nameCn}</label>
+                <label class="col-sm-2 control-label">昵称</label>
                 <div class="col-sm-10">
-                  <input v-model="${domain}.${field.nameHump}" class="form-control">
+                  <input v-model="teacher.nickname" class="form-control">
                 </div>
               </div>
-                  </#if>
-                </#if>
-              </#list>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">头像</label>
+                <div class="col-sm-10">
+                  <input v-model="teacher.image" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">职位</label>
+                <div class="col-sm-10">
+                  <input v-model="teacher.position" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">座右铭</label>
+                <div class="col-sm-10">
+                  <input v-model="teacher.motto" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">简介</label>
+                <div class="col-sm-10">
+                  <input v-model="teacher.intro" class="form-control">
+                </div>
+              </div>
             </form>
           </div>
           <div class="modal-footer">
@@ -132,16 +147,11 @@
   import Pagination from "../../components/pagination";
   export default {
     components: {Pagination},
-    name: "${module}-${domain}",
+    name: "business-teacher",
     data: function() {
       return {
-        ${domain}: {},//接收单个${domain}
-        ${domain}s: [], //接收${domain}的数组
-        <#list fieldList as field>
-          <#if field.enums>
-        ${field.enumsConst}: ${field.enumsConst},
-          </#if>
-        </#list>
+        teacher: {},//接收单个teacher
+        teachers: [], //接收teacher的数组
       }
     },
     mounted: function() {
@@ -150,7 +160,7 @@
       _this.list(1);
       // 前后端数据交互
       // 子组件调用父组件的方法 sidebar激活样式方法一
-      // this.$parent().activeSidebar("${module}-${domain}-sidebar")
+      // this.$parent().activeSidebar("business-teacher-sidebar")
     },
     methods: {
 
@@ -159,7 +169,7 @@
        */
       add() {
         let _this = this;
-        _this.${domain} = {}; // 解决新增数据时模态框保留上次数据问题
+        _this.teacher = {}; // 解决新增数据时模态框保留上次数据问题
         // 第一个modal是css选择器，模态框代码里有class="modal",是modal()方法里的是内置方法，弹出关闭模态框hide，show
         $("#form-modal").modal({backdrop:"static"}, "show"); // 点空白不会关闭
         // $("#form-modal").modal("show"); // 点空白会关闭
@@ -168,10 +178,10 @@
       /**
        * 点击【编辑】
        * */
-      edit(${domain}) {
+      edit(teacher) {
         let _this = this;
-        // vue中将表格行数据显示到表单，反过来也会的问题：$.extend({},${domain})解决(${domain},复制给空对象)
-        _this.${domain} = $.extend({}, ${domain}); //vue中的_tis.${domain}会通过v-modal属性和form表单做数据绑定
+        // vue中将表格行数据显示到表单，反过来也会的问题：$.extend({},teacher)解决(teacher,复制给空对象)
+        _this.teacher = $.extend({}, teacher); //vue中的_tis.teacher会通过v-modal属性和form表单做数据绑定
         $("#form-modal").modal({backdrop:"static"}, "show"); // 点空白不会关闭
 
       },
@@ -179,9 +189,9 @@
       /**删除**/
       del(id) {
         let _this = this;
-        Confirm.show("删除${tableNameCn}后不可恢复！确认删除？",function () {
+        Confirm.show("删除讲师后不可恢复！确认删除？",function () {
           Loading.show();
-          _this.$ajax.delete(process.env.VUE_APP_SERVER + '/${module}/admin/${domain}/delete/' + id).then((response)=>{
+          _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/teacher/delete/' + id).then((response)=>{
             Loading.hide();
             let resp = response.data;
             if (resp.success) {
@@ -199,14 +209,14 @@
       list(page) {
         let _this = this;
         Loading.show();
-        _this.$ajax.post(process.env.VUE_APP_SERVER + '/${module}/admin/${domain}/list', {
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/teacher/list', {
           page: page,
           size: _this.$refs.pagination.size, // $refs获取子组件（根绝pagination这个名字）
         }).then((response)=>{
           Loading.hide();
-          // console.log("查询${tableNameCn}列表结果:", response);
+          // console.log("查询讲师列表结果:", response);
           let resp = response.data;
-          _this.${domain}s = resp.content.list;
+          _this.teachers = resp.content.list;
           _this.$refs.pagination.render(page, resp.content.total);//重现渲染组件
         })
       },
@@ -217,23 +227,20 @@
 
         // 保存校验
         if (1 != 1
-        <#list fieldList as field>
-          <#if field.name!="id" && field.nameHump!="createdAt" && field.nameHump!="updatedAt" && field.nameHump!="sort">
-            <#if !field.nullAble>
-          || !Validator.require(_this.${domain}.${field.nameHump}, "${field.nameCn}")
-            </#if>
-            <#if (field.length > 0)>
-          || !Validator.length(_this.${domain}.${field.nameHump}, "${field.nameCn}", 1, ${field.length?c})
-            </#if>
-          </#if>
-        </#list>
+          || !Validator.require(_this.teacher.name, "姓名")
+          || !Validator.length(_this.teacher.name, "姓名", 1, 50)
+          || !Validator.length(_this.teacher.nickname, "昵称", 1, 50)
+          || !Validator.length(_this.teacher.image, "头像", 1, 100)
+          || !Validator.length(_this.teacher.position, "职位", 1, 50)
+          || !Validator.length(_this.teacher.motto, "座右铭", 1, 50)
+          || !Validator.length(_this.teacher.intro, "简介", 1, 500)
         ) {
           return;
         }
 
         Loading.show();
-        _this.$ajax.post(process.env.VUE_APP_SERVER + '/${module}/admin/${domain}/save',
-          _this.${domain}).then((response)=>{
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/teacher/save',
+          _this.teacher).then((response)=>{
           Loading.hide();
           let resp = response.data;
           if (resp.success) {
