@@ -17,6 +17,7 @@ import com.course.server.service.TestService;
 import com.course.server.util.UuidUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,12 @@ import java.io.IOException;
 @RequestMapping("/admin")
 @RestController
 public class UploadController {
+
+    @Value("${file.path}")
+    private String FILE_PATH;
+
+    @Value("${file.domain}")
+    private String FILE_DOMAIN;
     
     private static final Logger LOG = LoggerFactory.getLogger(UploadController.class);
     public static final String BUSINESS_NAME = "文件上传";
@@ -54,13 +61,13 @@ public class UploadController {
         // 保存文件到本地
         String fileName = file.getOriginalFilename();
         String key = UuidUtil.getShortUuid();
-        String fullPath = "D:/ideacore/file/course/course/teacher/" + key + "-" + fileName;
+        String fullPath = FILE_PATH + "teacher/" + key + "-" + fileName;
         File dest = new File(fullPath);// dest 生成的目标位置
         file.transferTo(dest);// 文件写到目标位置
         LOG.info(dest.getAbsolutePath());// 打印目标位置全路径
 
         ResponseDto responseDto = new ResponseDto();
-        responseDto.setContent("http://127.0.0.1:9000/file/f/teacher/" + key + "-" + fileName);
+        responseDto.setContent(FILE_DOMAIN + "f/teacher/" + key + "-" + fileName);
         return responseDto;
     }
 }
