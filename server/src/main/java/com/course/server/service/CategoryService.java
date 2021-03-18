@@ -40,12 +40,6 @@ public class CategoryService {
     @Resource
     private CategoryMapper categoryMapper;
 
-    // 前端传递过来的类再重新获取返回void关键字
-
-    /**
-     * 列表查询
-     * @param pageDto
-     */
     public List<CategoryDto> all() {
         CategoryExample categoryExample = new CategoryExample();
         categoryExample.setOrderByClause("sort asc");
@@ -53,6 +47,11 @@ public class CategoryService {
         List<CategoryDto> categoryDtoList = CopyUtil.copyList(categoryList, CategoryDto.class);
         return categoryDtoList;
     }
+    /**
+     * 列表查询
+     * @param pageDto
+     */
+    // 前端传递过来的类再重新获取返回void关键字
     public void list(PageDto pageDto) {
         PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
         CategoryExample categoryExample = new CategoryExample();
@@ -63,6 +62,7 @@ public class CategoryService {
         List<CategoryDto> categoryDtoList = CopyUtil.copyList(categoryList, CategoryDto.class);
         pageDto.setList(categoryDtoList);
     }
+
 
 
     /**
