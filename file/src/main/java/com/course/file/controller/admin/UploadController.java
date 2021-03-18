@@ -54,7 +54,7 @@ public class UploadController {
         // 保存文件到本地
         String fileName = file.getOriginalFilename();
         String key = UuidUtil.getShortUuid();
-        String fullPath = "D:/ideacore/file/course/teacher/" + key + "-" + fileName;
+        String fullPath = "D:/ideacore/file/course/course/teacher/" + key + "-" + fileName;
         File dest = new File(fullPath);// dest 生成的目标位置
         file.transferTo(dest);// 文件写到目标位置
         LOG.info(dest.getAbsolutePath());// 打印目标位置全路径
