@@ -84,7 +84,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">头像</label>
                 <div class="col-sm-10">
-                  <input v-model="teacher.image" class="form-control">
+                  <input id="file-upload-input" type="file" v-on:change="uploadImage()">
                 </div>
               </div>
               <div class="form-group">
@@ -225,6 +225,17 @@
             Toast.warning(resp.message)
           }
         })
+      },
+      uploadImage() {
+        let _this = this;
+        let formDate = new window.FormData();
+        // key:"file"必须和后端controller的参数名一致
+        formDate.append('file', document.querySelector('#file-upload-input').files[0]);// (变量，值)
+        Loading.show();
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/file/admin/upload', formDate).then((response)=>{
+          Loading.hide();
+          let resp = response.data;
+        });
       }
     }
   }
