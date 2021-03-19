@@ -87,6 +87,7 @@
                   <file v-bind:id="'image-upload'"
                         v-bind:text="'上传头像'"
                         v-bind:suffixs="['jpg', 'jpeg', 'png']"
+                        v-bind:use="FILE_USE.TEACHER.key"
                         v-bind:after-upload="afterUpload"></file>
                   <div v-show="teacher.image" class="row">
                     <div class="col-md-4">
@@ -135,6 +136,7 @@
       return {
         teacher: {},//接收单个teacher
         teachers: [], //接收teacher的数组
+        FILE_USE: FILE_USE// 不写这句直接用上面的FILE_USE会报错，xx:xx左边是file组件内的变量，右是js的全局变量，在html中用的是组件内的变量（直接读不到全局的变量）
       }
     },
     mounted: function() {

@@ -17,6 +17,7 @@ import com.course.server.dto.ResponseDto;
 import com.course.server.service.FileService;
 import com.course.server.service.TestService;
 import com.course.server.util.UuidUtil;
+import enums.FileUseEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,16 +59,27 @@ public class UploadController {
     private FileService fileService;
 
     @RequestMapping("/upload")
-    public ResponseDto upload(@RequestParam MultipartFile file) throws IOException {//@RequestParam用来接收表单参数的
-        LOG.info("上传开始文件：{}", file);
+    public ResponseDto upload(@RequestParam MultipartFile file, String use) throws IOException {//@RequestParam用来接收表单参数的
+        LOG.info("上传开始文件");
         LOG.info(file.getOriginalFilename());
         LOG.info(String.valueOf(file.getSize()));
 
         // 保存文件到本地
+        // 入参use:T,useEnum:TEACHER("T", "讲师");
+        FileUseEnum useEnum = FileUseEnum.getByCode(use);
         String key = UuidUtil.getShortUuid();
         String fileName = file.getOriginalFilename();
         String suffix = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
-        String path = "teacher/" + key + "." + suffix;
+
+        // 如果文件不存在则创建dir:teacher
+        String dir = useEnum.name().toLowerCase();
+        File fullDir = new File(FILE_PATH + dir);
+        if (!fullDir.exists()) {
+            fullDir.mkdir();
+        }
+
+        // File.separator 文件分隔符：\虽然斜杠"/"也能识别，最好用反斜杠"\"
+        String path = dir + File.separator + key +  "." + suffix;
         String fullPath = FILE_PATH + path;
         File dest = new File(fullPath);// dest 生成的目标位置
         file.transferTo(dest);// 文件写到目标位置
@@ -79,7 +91,7 @@ public class UploadController {
         fileDto.setName(fileName);
         fileDto.setSize(Math.toIntExact(file.getSize()));
         fileDto.setSuffix(suffix);
-        fileDto.setUse("");
+        fileDto.setUse(use);
         fileService.save(fileDto);
 
         ResponseDto responseDto = new ResponseDto();

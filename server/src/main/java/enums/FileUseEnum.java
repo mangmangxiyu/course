@@ -30,6 +30,7 @@ public enum FileUseEnum {
         return desc;
     }
 
+    // 返回的是一整个枚举类型TEACHER("T", "讲师");
     public static FileUseEnum getByCode(String code){
         for(FileUseEnum e: FileUseEnum.values()){
             if(code.equals(e.getCode())){
