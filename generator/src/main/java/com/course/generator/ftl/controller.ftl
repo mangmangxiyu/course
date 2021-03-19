@@ -31,8 +31,8 @@ import javax.annotation.Resource;
  * @create 2021/3/3
  * @since 1.0.0
  */
-@RequestMapping("/admin/${domain}")
 @RestController
+@RequestMapping("/admin/${domain}")
 public class ${Domain}Controller {
 
     private static final Logger LOG = LoggerFactory.getLogger(${Domain}Controller.class);

@@ -59,7 +59,7 @@ Tool = {
     let index = -1;
     for (let i = 0; i < array.length; i++) {
       if (array[i] === obj) {
-        array.splice(i, 1);
+        array.splice(i, 1);//js内部的移除方法
         index = i;
         break;
       }
