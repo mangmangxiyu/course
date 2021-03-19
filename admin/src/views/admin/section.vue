@@ -121,7 +121,16 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">视频</label>
                 <div class="col-sm-10">
-                  <input v-model="section.video" class="form-control">
+                  <file v-bind:id="'video-upload'"
+                        v-bind:text="'上传视频'"
+                        v-bind:suffixs="['mp4']"
+                        v-bind:use="FILE_USE.COURSE.key"
+                        v-bind:after-upload="afterUpload"></file>
+                  <div v-show="section.video" class="row">
+                    <div class="col-md-10">
+                      <video v-bind:src="section.video" controls="controls"></video>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="form-group">
@@ -158,14 +167,16 @@
 
 <script>
   import Pagination from "../../components/pagination";
+  import File from "../../components/file";
   export default {
-    components: {Pagination},
+    components: {Pagination,File},
     name: "business-section",
     data: function() {
       return {
         section: {},//接收单个section
         sections: [], //接收section的数组
         SECTION_CHARGE: SECTION_CHARGE,
+        FILE_USE: FILE_USE,
         course: {},
         chapter: {}
       }
@@ -182,7 +193,7 @@
       _this.chapter = chapter;
       _this.list(1);
       // 子组件调用父组件的方法 sidebar激活样式方法一
-      this.$parent().activeSidebar("business-course-sidebar")
+      this.$parent.activeSidebar("business-course-sidebar")
     },
     methods: {
 
@@ -270,7 +281,21 @@
             Toast.warning(resp.message)
           }
         })
+      },
+
+      afterUpload(resp) {
+        let _this = this;
+        let video = resp.content.path;
+        _this.section.video = video;
       }
     }
   }
 </script>
+
+<style>
+  video {
+    width: 100%;
+    height: auto;
+    margin-top: 10px;
+  }
+</style>

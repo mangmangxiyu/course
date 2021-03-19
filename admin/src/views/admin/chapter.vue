@@ -149,7 +149,7 @@
       _this.list(1);
       // 前后端数据交互
       // 子组件调用父组件的方法 sidebar激活样式方法一
-      this.$parent().activeSidebar("business-course-sidebar")
+      this.$parent.activeSidebar("business-course-sidebar")
     },
     methods: {
 
