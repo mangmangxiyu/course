@@ -37,6 +37,7 @@ public class FileController {
 
     private static final Logger LOG = LoggerFactory.getLogger(FileController.class);
     public static final String BUSINESS_NAME = "文件";
+
     @Resource
     private FileService fileService;
 
