@@ -424,6 +424,30 @@
 
                 <b class="arrow"></b>
               </li>
+
+              <li class="active open">
+                <a href="#" class="dropdown-toggle">
+                  <i class="menu-icon fa fa-list"></i>
+                  <span class="menu-text"> 文件管理 </span>
+
+                  <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                  <li class="active" id="file-file-sidebar">
+                    <!--file模块，表名file-->
+                    <router-link to="/file/file">
+                      <i class="menu-icon fa fa-caret-right"></i>
+                      文件管理
+                    </router-link>
+
+                    <b class="arrow"></b>
+                  </li>
+
+                </ul>
+              </li>
             </ul>
           </li>
         </ul><!-- /.nav-list -->
