@@ -128,7 +128,7 @@
                         v-bind:after-upload="afterUpload"></file>
                   <div v-show="section.video" class="row">
                     <div class="col-md-10">
-                      <video v-bind:src="section.video" controls="controls"></video>
+                      <video id="video" v-bind:src="section.video" controls="controls"></video>
                     </div>
                   </div>
                 </div>
@@ -141,7 +141,7 @@
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">收费</label>
-                <div class="col-sm-10">
+                <div class="col-sm-9">
                   <select v-model="section.charge" class="form-control">
                     <option v-for="o in SECTION_CHARGE" v-bind:value="o.key">{{o.value}}</option>
                   </select>
@@ -287,6 +287,12 @@
         let _this = this;
         let video = resp.content.path;
         _this.section.video = video;
+        _this.getTime();
+      },
+      getTime() {
+        let _this = this;
+        let ele = document.getElementById("video");
+        _this.section.time = parseInt(ele.duration, 10);
       }
     }
   }
