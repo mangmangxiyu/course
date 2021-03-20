@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="zh">
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <meta charset="utf-8"/>
@@ -47,14 +47,17 @@
 
   <!--[if !IE]> -->
   <script src="<%= BASE_URL %>ace/assets/js/jquery-2.1.4.min.js"></script>
+  <!--<script src="<%= BASE_URL %>static/js/jquery-3.5.1.min.js"></script>-->
 
   <!-- <![endif]-->
 
   <!--[if IE]>
-  <script src="<%= BASE_URL %>ace/assets/js/jquery-1.11.3.min.js"></script>
+  <!--<script src="<%= BASE_URL %>ace/assets/js/jquery-1.11.3.min.js"></script>-->
+  <!--  jquery.min.js  -->
+  <!--<script src="<%= BASE_URL %>static/js/jquery-3.5.1.min.js"></script>-->
   <![endif]-->
   <script type="text/javascript">
-    if ('ontouchstart' in document.documentElement) document.write("<script src='<%= BASE_URL %>ace/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    if ('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
   </script>
   <script src="<%= BASE_URL %>ace/assets/js/bootstrap.min.js"></script>
 
