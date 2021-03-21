@@ -114,6 +114,7 @@ public class UploadController {
     public void merge(FileDto fileDto) throws Exception {
         LOG.info("文件合并---开始");
         String path = fileDto.getPath();
+        int shardTotal = fileDto.getShardTotal();
         path = path.replace(FILE_DOMAIN, "");
         File newFile = new File(FILE_PATH + path);
         FileOutputStream outputStream = new FileOutputStream(newFile, true);// 文件追加写入
@@ -122,7 +123,7 @@ public class UploadController {
         int len;
 
         try {
-            for (int i = 0; i < fileDto.getShardTotal(); i++) {
+            for (int i = 0; i < shardTotal; i++) {
                 // 读取第一个分片
                 fileInputStream = new FileInputStream(new File(FILE_PATH + path + "." + (i + 1)));
                 while((len = fileInputStream.read(byt)) != -1) {
@@ -143,5 +144,16 @@ public class UploadController {
             }
         }
         LOG.info("文件合并---开始");
+
+        System.gc();
+        // 删除分片
+        LOG.info("删除分片开始");
+        for (int i = 0; i < shardTotal; i++) {
+            String filePath = FILE_PATH + path + "." + (i + 1);
+            File file = new File(filePath);
+            boolean result = file.delete();
+            LOG.info("删除{}，{}", filePath, result ? "成功" : "失败");
+        }
+        LOG.info("删除分片结束");
     }
 }

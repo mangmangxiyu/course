@@ -66,7 +66,7 @@
         }
 
         // 文件分片
-        let shardSize = 20 * 1024 * 1024;// 分片大小
+        let shardSize = 10 * 1024 * 1024;// 分片大小
         let shardIndex = 1;// 分片索引1表示入库为第一个分片
         let size = file.size;
         let shardTotal = Math.ceil(size / shardSize);
@@ -120,8 +120,8 @@
               _this.upload(param);
             } else {
               _this.afterUpload(resp);
+              $("#" + _this.inputId + "-input").val("");
             }
-            $("#" + _this.inputId + "-input").val("");
           });
         };
         fileReader.readAsDataURL(fileShard)
