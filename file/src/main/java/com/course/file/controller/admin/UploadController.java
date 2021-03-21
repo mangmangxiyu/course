@@ -16,7 +16,6 @@ import com.course.server.dto.FileDto;
 import com.course.server.dto.ResponseDto;
 import com.course.server.service.FileService;
 import com.course.server.service.TestService;
-import com.course.server.util.UuidUtil;
 import enums.FileUseEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,14 +68,14 @@ public class UploadController {
                               Integer size,
                               Integer shardIndex,
                               Integer shardSize,
-                              Integer shardTotal) throws IOException {//@RequestParam用来接收表单参数的
+                              Integer shardTotal,
+                              String key) throws IOException {//@RequestParam用来接收表单参数的
 
         // 保存文件到本地
         // 入参use:T,useEnum:TEACHER("T", "讲师");
         LOG.info("文件开始上传");
 
         FileUseEnum useEnum = FileUseEnum.getByCode(use);
-        String key = UuidUtil.getShortUuid();
 
         // 如果文件不存在则创建dir:teacher
         String dir = useEnum.name().toLowerCase();
@@ -100,7 +99,7 @@ public class UploadController {
         fileDto.setSuffix(suffix);
         fileDto.setUse(use);
         fileDto.setShardIndex(shardIndex);
-        fileDto.setSize(shardSize);
+        fileDto.setShardSize(shardSize);
         fileDto.setShardTotal(shardTotal);
         fileDto.setKey(key);
         fileService.save(fileDto);

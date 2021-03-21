@@ -38,6 +38,14 @@
         let _this = this;
         let formData = new window.FormData();
         let file = _this.$refs.file.files[0];
+        console.log(file);
+
+        // 生成文件标识，标识多次上传的是否为同一个文件
+        let key = hex_md5(file);
+        let key10 = parseInt(key, 16);
+        let key62 = Tool._10to62(key10);
+
+        console.log(key, key10, key62);
 
         // 判断文件格式
         let suffixs = _this.suffixs;
@@ -58,7 +66,7 @@
 
         // 文件分片
         let shardSize = 20 * 1024 * 1024;// 分片大小
-        let shardIndex = 0;// 分片索引0/1/2
+        let shardIndex = 1;// 分片索引0/1/2
         let start = shardIndex * shardSize;// 当前分片起始位置
         let end = Math.min(file.size, start + shardSize);// 当前分片结束为止
         let fileShard = file.slice(start, end);// 从文件中截取当前的分片数据
@@ -74,6 +82,7 @@
         formData.append('name', fileName);
         formData.append('suffix', suffix);
         formData.append('size', size);
+        formData.append('key', key62);
         Loading.show();
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/file/admin/upload', formData).then((response)=>{
           Loading.hide();

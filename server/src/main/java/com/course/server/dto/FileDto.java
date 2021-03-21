@@ -36,6 +36,14 @@ public class FileDto {
      */
     private String use;
 
+    private Integer shardIndex;
+
+    private Integer shardSize;
+
+    private Integer shardTotal;
+
+    private String key;
+
     /**
      * 创建时间
      */
@@ -80,13 +88,6 @@ public class FileDto {
         this.key = key;
     }
 
-    private Integer shardIndex;
-
-    private Integer shardSize;
-
-    private Integer shardTotal;
-
-    private String key;
 
     public String getId() {
         return id;
@@ -162,12 +163,12 @@ public class FileDto {
         sb.append(", suffix='").append(suffix).append('\'');
         sb.append(", size=").append(size);
         sb.append(", use='").append(use).append('\'');
-        sb.append(", createdAt=").append(createdAt);
-        sb.append(", updatedAt=").append(updatedAt);
         sb.append(", shardIndex=").append(shardIndex);
         sb.append(", shardSize=").append(shardSize);
         sb.append(", shardTotal=").append(shardTotal);
         sb.append(", key='").append(key).append('\'');
+        sb.append(", createdAt=").append(createdAt);
+        sb.append(", updatedAt=").append(updatedAt);
         sb.append('}');
         return sb.toString();
     }
