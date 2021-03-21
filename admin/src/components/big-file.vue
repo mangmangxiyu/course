@@ -66,8 +66,8 @@
 
         // 文件分片
         let shardSize = 20 * 1024 * 1024;// 分片大小
-        let shardIndex = 1;// 分片索引0/1/2
-        let start = shardIndex * shardSize;// 当前分片起始位置
+        let shardIndex = 2;// 分片索引1表示入库为第一个分片
+        let start = (shardIndex - 1) * shardSize;// 当前分片起始位置
         let end = Math.min(file.size, start + shardSize);// 当前分片结束为止
         let fileShard = file.slice(start, end);// 从文件中截取当前的分片数据
         let size = file.size;
