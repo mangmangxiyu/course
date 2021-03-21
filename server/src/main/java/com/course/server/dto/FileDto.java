@@ -45,6 +45,12 @@ public class FileDto {
     private String key;
 
     /**
+     * base64(替代multipart文件)
+     */
+
+    private String shard;
+
+    /**
      * 创建时间
      */
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
@@ -153,6 +159,13 @@ public class FileDto {
         this.updatedAt = updatedAt;
     }
 
+    public String getShard() {
+        return shard;
+    }
+
+    public void setShard(String shard) {
+        this.shard = shard;
+    }
 
     @Override
     public String toString() {
@@ -167,6 +180,7 @@ public class FileDto {
         sb.append(", shardSize=").append(shardSize);
         sb.append(", shardTotal=").append(shardTotal);
         sb.append(", key='").append(key).append('\'');
+        sb.append(", shard='").append(shard).append('\'');
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
         sb.append('}');
