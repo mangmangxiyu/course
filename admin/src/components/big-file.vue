@@ -95,7 +95,7 @@
         let fileReader = new FileReader();
         fileReader.onload = function(e) {// 数据onload监听
           let base64 = e.target.result;
-          console.log("base64", base64);
+          // console.log("base64", base64);
 
           let param = {
           "shard": base64,

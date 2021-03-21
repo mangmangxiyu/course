@@ -78,7 +78,16 @@ public class UploadController {
         }
 
         // File.separator 文件分隔符：\虽然斜杠"/"也能识别，最好用反斜杠"\"
-        String path = dir + File.separator + key +  "." + suffix;
+        // 拼接字符串超过5个就用stringbuffer
+//        String path = dir + File.separator + key +  "." + suffix + "." + fileDto.getShardIndex();/
+        String path = new StringBuffer(dir)
+                .append(File.separator)
+                .append(key)
+                .append(".")
+                .append(suffix)
+                .append(".")
+                .append(fileDto.getShardIndex())
+                .toString();
         String fullPath = FILE_PATH + path;
         File dest = new File(fullPath);// dest 生成的目标位置
         shard.transferTo(dest);// 文件写到目标位置
