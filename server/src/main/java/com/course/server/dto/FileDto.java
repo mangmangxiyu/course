@@ -62,6 +62,16 @@ public class FileDto {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updatedAt;
 
+    private String vod;
+
+    public String getVod() {
+        return vod;
+    }
+
+    public void setVod(String vod) {
+        this.vod = vod;
+    }
+
     public Integer getShardIndex() {
         return shardIndex;
     }
@@ -183,6 +193,7 @@ public class FileDto {
         sb.append(", shard='").append(shard).append('\'');
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
+        sb.append(", vod='").append(vod).append('\'');
         sb.append('}');
         return sb.toString();
     }
