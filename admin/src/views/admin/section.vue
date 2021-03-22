@@ -121,11 +121,11 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">视频</label>
                 <div class="col-sm-10">
-                  <big-file v-bind:input-id="'video-upload'"
+                  <vod v-bind:input-id="'video-upload'"
                         v-bind:text="'上传大视频'"
                         v-bind:suffixs="['mp4']"
                         v-bind:use="FILE_USE.COURSE.key"
-                        v-bind:after-upload="afterUpload"></big-file>
+                        v-bind:after-upload="afterUpload"></vod>
                   <div v-show="section.video" class="row">
                     <div class="col-md-10">
                       <video id="video" v-bind:src="section.video" controls="controls"></video>
@@ -180,8 +180,9 @@
 <script>
   import Pagination from "../../components/pagination";
   import BigFile from "../../components/big-file";
+  import Vod from "../../components/vod";
   export default {
-    components: {Pagination,BigFile},
+    components: {Pagination, BigFile, Vod},
     name: "business-section",
     data: function() {
       return {
@@ -301,11 +302,14 @@
         _this.section.video = video;
         _this.getTime();
       },
+      // 获取时长，延时操作解决获取时长NAN的bug
       getTime() {
         let _this = this;
+        setTimeout(function () {
         let ele = document.getElementById("video");
         _this.section.time = parseInt(ele.duration, 10);
-      }
+        }, 100);
+      },
     }
   }
 </script>
