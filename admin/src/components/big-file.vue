@@ -95,7 +95,12 @@
               param.shardIndex = 1;
               console.info("没有找到文件记录，从分片1开始上传");
               _this.upload(param);
-            } else {
+            } else if (obj.shardIndex === obj.shardTotal) {
+              // 已上传分片=分片总数，说明已经上传成功，不需要再上传
+              Toast.success("文件急速秒传成功");
+              _this.afterUpload(resp);
+              $("#" + _this.inputId + "-input").val("");
+            }else {
               param.shardIndex = obj.shardIndex + 1;
               console.info("找到文件记录开始从从分片：" + param.shardIndex + "开始上传");
               _this.upload(param);

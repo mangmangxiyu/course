@@ -146,6 +146,7 @@ public class UploadController {
         LOG.info("文件合并---开始");
 
         System.gc();
+        Thread.sleep(100);
         // 删除分片
         LOG.info("删除分片开始");
         for (int i = 0; i < shardTotal; i++) {
@@ -164,6 +165,11 @@ public class UploadController {
     public ResponseDto check(@PathVariable String key) {
         ResponseDto responseDto = new ResponseDto();
         FileDto fileDto = fileService.findByKey(key);
+        if (fileDto != null) {
+//            LOG.info("返回的原文件地址：" + fileDto.getPath());
+            fileDto.setPath(FILE_DOMAIN + fileDto.getPath());
+//            LOG.info("已上传的文件地址：" + fileDto.getPath());
+        }
         responseDto.setContent(fileDto);
         return responseDto;
     }
