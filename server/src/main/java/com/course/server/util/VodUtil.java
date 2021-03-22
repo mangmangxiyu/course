@@ -42,6 +42,7 @@ public class VodUtil {
         request.setTitle(fileName);
         //request.setDescription("this is desc");
         //request.setTags("tag1,tag2");
+        // 一下三个测试封面图片，oss中的分类id，和加密模板hls高清（自定义）定义模板后文件上传和加密转码一起完成，文件名相同但不是同一个文件，有ID区别
 //        request.setCoverURL("http://vod.aliyun.com/test_cover_url.jpg");
         request.setCateId(1000115308L);
         request.setTemplateGroupId("78fffb8c0c2426efd5baaaafed76fe36");
