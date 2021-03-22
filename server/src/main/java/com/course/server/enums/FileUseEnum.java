@@ -1,4 +1,4 @@
-package enums;
+package com.course.server.enums;
 
 public enum FileUseEnum {
 

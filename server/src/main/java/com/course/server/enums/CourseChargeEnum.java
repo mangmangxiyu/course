@@ -1,14 +1,14 @@
-package enums;
+package com.course.server.enums;
 
-public enum CourseStatusEnum {
+public enum CourseChargeEnum {
 
-    PUBLISH("P", "发布"),
-    DRAFT("D", "草稿");
+    CHARGE("C", "收费"),
+    FREE("F", "免费");
 
     private String code;
     private String desc;
 
-    CourseStatusEnum(String code, String desc) {
+    CourseChargeEnum(String code, String desc) {
         this.code = code;
         this.desc = desc;
     }

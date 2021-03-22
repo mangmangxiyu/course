@@ -19,7 +19,7 @@ import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import enums.SectionChargeEnum;
+import com.course.server.enums.SectionChargeEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;

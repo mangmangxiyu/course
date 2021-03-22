@@ -17,7 +17,7 @@ import com.course.server.dto.ResponseDto;
 import com.course.server.service.FileService;
 import com.course.server.service.TestService;
 import com.course.server.util.Base64ToMultipartFile;
-import enums.FileUseEnum;
+import com.course.server.enums.FileUseEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
