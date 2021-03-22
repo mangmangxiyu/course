@@ -151,6 +151,7 @@ public class VodUtil {
      * @return
      * @throws Exception
      */
+    // 此次2方法
     public static GetVideoPlayAuthResponse getVideoPlayAuth(DefaultAcsClient client, String videoId) throws Exception {
         GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
         request.setVideoId(videoId);

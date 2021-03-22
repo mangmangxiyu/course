@@ -27,7 +27,8 @@
       <tr>
         <th>ID</th>
         <th>标题</th>
-        <th>视频</th>
+        <!--<th>视频</th>-->
+        <th>VOD</th>
         <th>时长</th>
         <th>收费</th>
         <th>顺序</th>
@@ -39,52 +40,23 @@
       <tr v-for="section in sections">
         <td>{{section.id}}</td>
         <td>{{section.title}}</td>
-        <td>{{section.video}}</td>
+        <!--<td>{{section.video}}</td>此次3-->
+        <td>{{section.vod}}</td>
         <td>{{section.time | formatSecond}}</td>
         <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>
         <td>{{section.sort}}</td>
       <td>
         <div class="hidden-sm hidden-xs btn-group">
+          <!--此次3增加的一个按钮-->
+          <button v-on:click="play(section)" class="btn btn-xs btn-info">
+            <i class="ace-icon fa fa-video-camera bigger-120"></i>
+          </button>
           <button v-on:click="edit(section)" class="btn btn-xs btn-info">
             <i class="ace-icon fa fa-pencil bigger-120"></i>
           </button>
           <button v-on:click="del(section.id)" class="btn btn-xs btn-danger">
             <i class="ace-icon fa fa-trash-o bigger-120"></i>
           </button>
-        </div>
-
-        <div class="hidden-md hidden-lg">
-          <div class="inline pos-rel">
-            <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-              <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-            </button>
-
-            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-              <li>
-                <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-                  <span class="blue">
-                    <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                  </span>
-                </a>
-              </li>
-
-              <li>
-                <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-                  <span class="green">
-                    <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                  </span>
-                </a>
-              </li>
-
-              <li>
-                <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-                  <span class="red">
-                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                  </span>
-                </a>
-              </li>
-            </ul>
-          </div>
         </div>
       </td>
       </tr>
@@ -129,7 +101,9 @@
                   <div v-show="section.video" class="row">
                     <div class="col-md-9">
                       <!--此次2+class="hidden"-->
-                      <player ref="player"></player>
+                      <!--<player ref="player" ref="player"></player>下面player此次3-->
+                      <player v-bind:player-id="'form-player-div'"
+                              ref="player"></player>
                       <video id="video" v-bind:src="section.video" controls="controls" class="hidden"></video>
                     </div>
                   </div>
@@ -176,6 +150,9 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <!--此次3带有弹出框的播放器-->
+    <modal-player ref="modalPlayer"></modal-player>
   </div>
 </template>
 
@@ -184,8 +161,9 @@
   import BigFile from "../../components/big-file";
   import Vod from "../../components/vod";
   import Player from "../../components/player";
+  import ModalPlayer from "../../components/modal-player";
   export default {
-    components: {Player, Pagination, BigFile, Vod},
+    components: {ModalPlayer, Player, Pagination, BigFile, Vod},
     name: "business-section",
     data: function() {
       return {
@@ -318,6 +296,16 @@
         _this.section.time = parseInt(ele.duration, 10);
         }, 1000);
       },
+
+      // 此次3方法
+      /**
+       * 播放视频
+       * @param section
+       */
+      play(section) {
+        let _this = this;
+        _this.$refs.modalPlayer.playVod(section.vod);
+      }
     }
   }
 </script>

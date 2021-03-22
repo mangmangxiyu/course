@@ -24,15 +24,15 @@
         //如果已经有播放器了，则将播放器div删除
         if (_this.aliPlayer) {
           _this.aliPlayer = null;
-          $("#" + _this.playerId + '-player').remove();
-          // $("#J_prismPlayer").remove(); 此次1
+          $("#" + _this.playerId + '-player').remove();//此处2
+          // $("#J_prismPlayer").remove(); //此次1
         }
 
         // 初始化播放器
-        $("#" + _this.playerId).append("<div class=\"prism-player\" id=\"" + _this.playerId + "-player\"></div>");
+        $("#" + _this.playerId).append("<div class=\"prism-player\" id=\"" + _this.playerId + "-player\"></div>");//此处2
         //$("#" + _this.playerId).append("<div class=\"prism-player\" id=\"J_prismPlayer\"></div>");//此次1
         _this.aliPlayer = new Aliplayer({
-          id: _this.playerId + '-player',
+          id: _this.playerId + '-player',// 此处2
           // id: 'J_prismPlayer',//此次1
           width: '100%',
           autoplay: false,
@@ -43,6 +43,7 @@
         });
       },
 
+      // 此处2新增方法
       playVod (vod) {
         let _this = this;
         Loading.show();
