@@ -12,15 +12,20 @@ package com.course.file.controller.admin;/**
  * Created by 111 on 2021/3/3.
  */
 
+import com.alibaba.fastjson.JSON;
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.vod.model.v20170321.GetMezzanineInfoResponse;
 import com.course.server.dto.FileDto;
 import com.course.server.dto.ResponseDto;
+import com.course.server.enums.FileUseEnum;
 import com.course.server.service.FileService;
 import com.course.server.service.TestService;
 import com.course.server.util.Base64ToMultipartFile;
-import com.course.server.enums.FileUseEnum;
+import com.course.server.util.VodUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,6 +53,12 @@ public class UploadController {
 
     @Value("${file.domain}")
     private String FILE_DOMAIN;
+
+    @Value("${vod.accessKeyId}")
+    private String accessKeyId;
+
+    @Value("${vod.accessKeySecret}")
+    private String accessKeySecret;
     
     private static final Logger LOG = LoggerFactory.getLogger(UploadController.class);
     public static final String BUSINESS_NAME = "文件上传";
@@ -162,13 +173,27 @@ public class UploadController {
      * 上传前检查分片
      */
     @GetMapping("/check/{key}")
-    public ResponseDto check(@PathVariable String key) {
+    public ResponseDto check(@PathVariable String key) throws Exception {// 此次1修改方法和加@value
+        LOG.info("检查上传分片开始：{}", key);
         ResponseDto responseDto = new ResponseDto();
         FileDto fileDto = fileService.findByKey(key);
         if (fileDto != null) {
-//            LOG.info("返回的原文件地址：" + fileDto.getPath());
-            fileDto.setPath(FILE_DOMAIN + fileDto.getPath());
-//            LOG.info("已上传的文件地址：" + fileDto.getPath());
+            if (StringUtils.isEmpty(fileDto.getVod())) {
+                fileDto.setPath(FILE_DOMAIN + fileDto.getPath());
+            } else {
+                DefaultAcsClient vodClient = VodUtil.initVodClient(accessKeyId, accessKeySecret);
+                GetMezzanineInfoResponse response = VodUtil.getMezzanineInfo(vodClient, fileDto.getVod());
+                System.out.println("获取视频信息, response : " + JSON.toJSONString(response));
+                String fileUrl = response.getMezzanine().getFileURL();
+                fileDto.setPath(fileUrl);
+            }
+//    public ResponseDto check(@PathVariable String key) {
+//        ResponseDto responseDto = new ResponseDto();
+//        FileDto fileDto = fileService.findByKey(key);
+//        if (fileDto != null) {
+////            LOG.info("返回的原文件地址：" + fileDto.getPath());
+//            fileDto.setPath(FILE_DOMAIN + fileDto.getPath());
+////            LOG.info("已上传的文件地址：" + fileDto.getPath());
         }
         responseDto.setContent(fileDto);
         return responseDto;
