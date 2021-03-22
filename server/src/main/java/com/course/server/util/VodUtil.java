@@ -36,6 +36,7 @@ public class VodUtil {
      * @return
      * @throws ClientException
      */
+    // 此次入参添加fileName,fileName的参数以前是实参数据
     public static CreateUploadVideoResponse createUploadVideo(DefaultAcsClient vodClient, String fileName) throws ClientException {
         CreateUploadVideoRequest request = new CreateUploadVideoRequest();
         request.setFileName(fileName);
@@ -75,6 +76,7 @@ public class VodUtil {
      * @param uploadAddress
      * @param inputStream
      */
+    // 此前InputStream是String localFile（就是之前下面的本地上传方法）
     public static void uploadLocalFile(OSSClient ossClient, JSONObject uploadAddress, InputStream inputStream){
         String bucketName = uploadAddress.getString("Bucket");
         String objectName = uploadAddress.getString("FileName");
@@ -134,6 +136,7 @@ public class VodUtil {
      * @return GetMezzanineInfoResponse 获取源文件信息响应数据
      * @throws Exception
      */
+    // 此时增加的方法
     public static GetMezzanineInfoResponse getMezzanineInfo(DefaultAcsClient client, String videoId) throws Exception {
         GetMezzanineInfoRequest request = new GetMezzanineInfoRequest();
         request.setVideoId(videoId);
@@ -180,6 +183,7 @@ public class VodUtil {
 
             GetMezzanineInfoResponse response = new GetMezzanineInfoResponse();
             response = getMezzanineInfo(vodClient, videoId);
+            // 阿里云的jar里的实体类没有重写tostring方法，所以每次打印都要用JSON.toJSONString(),这也是为什么我要求实体类中要生成toString（）
             System.out.println("获取视频信息, response : " + JSON.toJSONString(response));
         } catch (Exception e) {
             System.out.println("上传视频失败, ErrorMessage : " + e.getLocalizedMessage());

@@ -269,7 +269,7 @@
       /**点击保存**/
       save() {
         let _this = this;
-
+        _this.section.video = "";// 此次1：获取到的可播放地址是有效的，所以就算保存到数据库也会过期，没用。所以根据vod播放,我们的校验逻辑中，空值是不会校验长度的。
         // 保存校验
         if (1 != 1
           || !Validator.require(_this.section.title, "标题")
@@ -280,6 +280,7 @@
         }
         _this.section.courseId = _this.course.id;
         _this.section.chapterId = _this.chapter.id;
+
 
         Loading.show();
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/save',
@@ -299,7 +300,9 @@
       afterUpload(resp) {
         let _this = this;
         let video = resp.content.path;
+        let vod = resp.content.vod;//此次1
         _this.section.video = video;
+        _this.section.vod = vod;//此次1
         _this.getTime();
       },
       // 获取时长，延时操作解决获取时长NAN的bug
@@ -307,8 +310,9 @@
         let _this = this;
         setTimeout(function () {
         let ele = document.getElementById("video");
+        console.info(ele);
         _this.section.time = parseInt(ele.duration, 10);
-        }, 100);
+        }, 1000);
       },
     }
   }

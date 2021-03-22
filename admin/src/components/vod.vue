@@ -1,5 +1,6 @@
 <template>
-  <!--此次提交应为url="'oss-append'",shard-size="shardSize"-->
+  <!--1此次提交应为url="'oss-append'",shard-size="shardSize"-->
+  <!--2此次提交使用vod.vue所以size写死不可配置-->
   <big-file v-bind:input-id="inputId"
             v-bind:text="text"
             v-bind:suffixs="suffixs"
@@ -27,6 +28,10 @@
       use: {
         default: ""
       },
+      // 2上次有配置 ->1
+      // shardSize: {
+      //   default: 50 * 1024
+      // },
       afterUpload: {
         type: Function,
         default: null
