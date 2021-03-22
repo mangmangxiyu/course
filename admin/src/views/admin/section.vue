@@ -127,8 +127,10 @@
                         v-bind:use="FILE_USE.COURSE.key"
                         v-bind:after-upload="afterUpload"></vod>
                   <div v-show="section.video" class="row">
-                    <div class="col-md-10">
-                      <video id="video" v-bind:src="section.video" controls="controls"></video>
+                    <div class="col-md-9">
+                      <!--此次2+class="hidden"-->
+                      <player ref="player"></player>
+                      <video id="video" v-bind:src="section.video" controls="controls" class="hidden"></video>
                     </div>
                   </div>
                 </div>
@@ -181,8 +183,9 @@
   import Pagination from "../../components/pagination";
   import BigFile from "../../components/big-file";
   import Vod from "../../components/vod";
+  import Player from "../../components/player";
   export default {
-    components: {Pagination, BigFile, Vod},
+    components: {Player, Pagination, BigFile, Vod},
     name: "business-section",
     data: function() {
       return {
@@ -304,6 +307,7 @@
         _this.section.video = video;
         _this.section.vod = vod;//此次1
         _this.getTime();
+        _this.$refs.player.playUrl(video);// 此次2
       },
       // 获取时长，延时操作解决获取时长NAN的bug
       getTime() {
