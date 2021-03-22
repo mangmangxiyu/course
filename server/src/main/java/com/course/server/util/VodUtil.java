@@ -81,7 +81,7 @@ public class VodUtil {
         // 单文件上传
         ossClient.putObject(bucketName, objectName, inputStream);
 
-        /* 视频点播不支持追加上传
+        /* 视频点播不支持追加上传11（上传到视频点播尚不支持追加上传提交工单）
         // 追加上传
         ObjectMetadata meta = new ObjectMetadata();
         meta.setContentType("text/plain");
