@@ -82,8 +82,29 @@
           "key": key62
         };
 
+        _this.check(param);
+      },
 
-        _this.upload(param);
+      check(param) {
+        let _this = this;
+        _this.$ajax.get(process.env.VUE_APP_SERVER + "/file/admin/check/" + param.key).then((response)=>{
+          let resp = response.data;
+          if (resp.success) {
+            let obj = resp.content;
+            if (!obj) {
+              param.shardIndex = 1;
+              console.info("没有找到文件记录，从分片1开始上传");
+              _this.upload(param);
+            } else {
+              param.shardIndex = obj.shardIndex + 1;
+              console.info("找到文件记录开始从从分片：" + param.shardIndex + "开始上传");
+              _this.upload(param);
+            }
+          } else  {
+            Toast.warning("文件上传失败");
+            $("#" + _this.inputId + "-input").val("");
+          }
+        })
       },
 
       getFileShard: function (shardIndex, shardSize) {

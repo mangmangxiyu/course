@@ -103,7 +103,9 @@ public class FileService {
     }
 
     /**
-     *
+     *  通过key查询文件
+     * @param key
+     * @return
      */
     public File selectByKey(String key) {
         FileExample example = new FileExample();
@@ -113,5 +115,14 @@ public class FileService {
             return null;
         }
         return fileList.get(0);
+    }
+
+    /**
+     * 根据文件标识查询数据库
+     * @param key
+     * @return fileDto
+     */
+    public FileDto findByKey(String key) {
+        return CopyUtil.copy(selectByKey(key), FileDto.class);
     }
 }

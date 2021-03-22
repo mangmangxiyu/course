@@ -156,4 +156,15 @@ public class UploadController {
         }
         LOG.info("删除分片结束");
     }
+
+    /**
+     * 上传前检查分片
+     */
+    @GetMapping("/check/{key}")
+    public ResponseDto check(@PathVariable String key) {
+        ResponseDto responseDto = new ResponseDto();
+        FileDto fileDto = fileService.findByKey(key);
+        responseDto.setContent(fileDto);
+        return responseDto;
+    }
 }
