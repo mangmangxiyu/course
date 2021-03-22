@@ -39,12 +39,23 @@
         let formData = new window.FormData();
         let file = _this.$refs.file.files[0];
 
-        console.log(file);
+        console.log(file);// 这个file得到的是文件的控件
+        console.log(JSON.stringify(file));
+        /*
+        lastModified: 1615644138105
+        lastModifiedDate: Sat Mar 13 2021 22:02:18 GMT+0800 (中国标准时间)
+        name: "566565.mp4"
+        size: 44112380
+        type: "video/mp4"
+        webkitRelativePath: ""
+         */
 
         // 生成文件标识，标识多次上传的是否为同一个文件
-        let key = hex_md5(file);
+        let key = hex_md5(file.name + file.size + file.type);
+        // console.info(hex_md5(Array()));对空字符串md5加密
         let key10 = parseInt(key, 16);
         let key62 = Tool._10to62(key10);
+
 
         console.log(key, key10, key62);
 
