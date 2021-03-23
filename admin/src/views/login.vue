@@ -79,8 +79,8 @@
     name: "login",
     data: function() {
       return {
-      user: {},
-      remember: true,
+        user: {},
+        remember: true,
       }
     },
     mounted: function() {
@@ -96,9 +96,15 @@
     methods: {
       login() {
         let _this = this;
-        let passwordShow = _this.user.password;// localSession必须有值才触发
+        // 将明文存储到缓存中
+        // let passwordShow = _this.user.password;// localSession必须有值才触发
 
-        _this.user.password = hex_md5(_this.user.password + KEY);
+        // 如果密码是从缓存中带出来的，则不需要重新加密
+        let md5 = hex_md5(_this.user.password);
+        let rememberUser = LocalStorage.get(LOCAL_KEY_REMEMBER_USER) || {};
+        if (md5 !== rememberUser.md5) {
+          _this.user.password = hex_md5(_this.user.password + KEY);
+        }
 
         Loading.show();
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/system/admin/user/login',
@@ -108,14 +114,19 @@
           if (resp.success) {
             console.log(resp.content);
             let loginUser = resp.content;
-            // SessionStorage.set("USER", resp.content);// h5的session刷新页面也有，而vue的store和js全局变量刷新页面就没了
             Tool.setLoginUser(loginUser);
             _this.$router.push("/welcome")
-            // 勾选“记住我”设置localsession
+            // 判断“记住我”
             if (_this.remember) {
+              // 勾选“记住我”设置localsession保存用户名和密码
+              // 原：这里需要保存明文密码，否则登录时又会在加密一层
+              // 新：这里保存密码密文（一次），并保存密文的md5（二次），用于检测密码是否被重新输入过
+              let md5 = hex_md5(_this.user.password);
               LocalStorage.set(LOCAL_KEY_REMEMBER_USER,{
                 loginName: loginUser.loginName,
-                password: passwordShow
+                // password: _this.user.passwordShow,
+                password: _this.user.password,
+                md5: md5
               });
             } else {
               // 没有勾选“记住我”清空localsession
@@ -127,7 +138,7 @@
         });
       },
     }
-}
+  }
 </script>
 
 
