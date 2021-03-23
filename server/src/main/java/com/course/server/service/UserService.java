@@ -92,7 +92,9 @@ public class UserService {
      * @param user
      */
     private void update(User user) {
-        userMapper.updateByPrimaryKey(user);
+        user.setPassword(null);
+        // 字段非空判断，为空不更新，原理就是利用mybatis的if拼成动态sql
+        userMapper.updateByPrimaryKeySelective(user);
     }
 
     /**
@@ -117,5 +119,16 @@ public class UserService {
         } else {
             return userList.get(0);
         }
+    }
+
+    /**
+     * 重置密码
+     * @param userDto
+     */
+    public void savePassword(UserDto userDto) {
+        User user = new User();
+        user.setId(userDto.getId());
+        user.setPassword(userDto.getPassword());
+        userMapper.updateByPrimaryKeySelective(user);
     }
 }
