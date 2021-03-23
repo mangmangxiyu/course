@@ -12,10 +12,7 @@ package com.course.system.controller.admin;/**
  * Created by 111 on 2021/3/3.
  */
 
-import com.course.server.dto.LoginUserDto;
-import com.course.server.dto.UserDto;
-import com.course.server.dto.PageDto;
-import com.course.server.dto.ResponseDto;
+import com.course.server.dto.*;
 import com.course.server.service.UserService;
 import com.course.server.util.ValidatorUtil;
 import org.slf4j.Logger;
@@ -24,6 +21,7 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -108,19 +106,30 @@ public class UserController {
     }
 
     /**
-     * 重置密码
+     * 登录
      * @param userDto
      * @return
      */
     @PostMapping("/login")
-    public ResponseDto login(@RequestBody UserDto userDto) {
+    public ResponseDto login(@RequestBody UserDto userDto, HttpServletRequest request) {
 
         // 密码二次加密
         userDto.setPassword(DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes()));
 
         ResponseDto responseDto = new ResponseDto();
         LoginUserDto loginUserDto = userService.login(userDto);
+        request.getSession().setAttribute(Constants.LOGIN_USER, loginUserDto);
         responseDto.setContent(loginUserDto);
+        return responseDto;
+    }/**
+     * 退出登录清除缓存
+     * @param
+     * @return
+     */
+    @GetMapping("/logout")
+    public ResponseDto logout(HttpServletRequest request) {
+        ResponseDto responseDto = new ResponseDto();
+        request.getSession().removeAttribute(Constants.LOGIN_USER);
         return responseDto;
     }
 

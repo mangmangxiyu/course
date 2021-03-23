@@ -94,9 +94,10 @@ Tool = {
 
   /**
    * 获取登录用户信息
+   * vue这种页面绑定的，存的变量是空的话 null.name会报错及.name；但是{}.name不会报错
    */
   getLoginUser: function () {
-    return SessionStorage.get(SESSION_KEY_LOGIN_USER) || {};
+    return SessionStorage.get(SESSION_KEY_LOGIN_USER) || {};//前端获取变量时小技巧
   },
 
   /**

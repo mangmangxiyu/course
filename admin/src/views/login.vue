@@ -101,6 +101,8 @@
           let resp = response.data;
           if (resp.success) {
             console.log(resp.content);
+            // SessionStorage.set("USER", resp.content);// h5的session刷新页面也有，而vue的store和js全局变量刷新页面就没了
+            Tool.setLoginUser(resp.content);
             _this.$router.push("/welcome")
           } else {
             Toast.warning(resp.message)

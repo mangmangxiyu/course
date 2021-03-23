@@ -283,7 +283,7 @@
                 <img class="nav-user-photo" src="../../public/ace/assets/images/avatars/user.jpg" alt="Jason's Photo" />
                 <span class="user-info">
 									<small>Welcome,</small>
-									Jason
+									{{loginUser.name}}
 								</span>
 
                 <i class="ace-icon fa fa-caret-down"></i>
@@ -293,23 +293,23 @@
                 <li>
                   <a href="#">
                     <i class="ace-icon fa fa-cog"></i>
-                    Settings
+                    系统设置
                   </a>
                 </li>
 
                 <li>
                   <a href="profile.html">
                     <i class="ace-icon fa fa-user"></i>
-                    Profile
+                    个人信息
                   </a>
                 </li>
 
                 <li class="divider"></li>
 
                 <li>
-                  <a href="#">
+                  <a v-on:click="logout()" href="#">
                     <i class="ace-icon fa fa-power-off"></i>
-                    Logout
+                    退出登录
                   </a>
                 </li>
               </ul>
@@ -357,7 +357,7 @@
           <li class="" id="welcome-sidebar">
             <router-link to="/welcome">
               <i class="menu-icon fa fa-tachometer"></i>
-              <span class="menu-text"> 欢迎 </span>
+              <span class="menu-text"> 欢迎：{{loginUser.name}} </span>
             </router-link>
 
             <b class="arrow"></b>
@@ -507,24 +507,21 @@
 <script>
   export default {
     name: "admin",
+    data: function() {
+      return {
+        loginUser: {},
+      }
+    },
     mounted: function() {
       let _this = this;// js中this关键字代表当前执行方法的对象，好习惯：在方法开头声明_this代替this
       $("body").removeClass("login-layout light-login");
       $("body").attr("class", "no-skin");
-      // console.log("admin");
-      // sidebar激活样式方法二
       _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
 
       // 解决登陆有ace.min.js不会自动加载必须刷新才加载问题（简写看上个提交记录）
       $.getScript('/ace/assets/js/ace.min.js');
-      /*
-      $.getScript(url,success(response,status));
-      //等同于一下简写
-      $.ajax({
-        url: url,
-        dataType: "script",
-        success: success
-      });*/
+
+      _this.loginUser = Tool.getLoginUser();
 
     },
     watch:{// 只对admin下的子路由（子组件互相跳转）有效
@@ -564,7 +561,24 @@
           parentLi.siblings().find("li").removeClass("active");// 兄弟菜单的子菜单选中样式清除
           parentLi.addClass("open active");
         }
-      }
+      },
+
+      logout() {
+        let _this = this;
+
+        Loading.show();
+        _this.$ajax.get(process.env.VUE_APP_SERVER + '/system/admin/user/logout',
+         ).then((response)=>{
+          Loading.hide();
+          let resp = response.data;
+          if (resp.success) {
+            Tool.setLoginUser(null);
+            _this.$router.push("/login")
+          } else {
+            Toast.warning(resp.message)
+          }
+        });
+      },
     }
   }
 
