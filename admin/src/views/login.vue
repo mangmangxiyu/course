@@ -46,7 +46,7 @@
 
                         <div class="clearfix">
                           <label class="inline">
-                            <input type="checkbox" class="ace"/>
+                            <input v-model="remember" type="checkbox" class="ace"/>
                             <span class="lbl"> 记住我 </span>
                           </label>
 
@@ -80,18 +80,24 @@
     data: function() {
       return {
       user: {},
+      remember: true,
       }
     },
     mounted: function() {
+      let _this = this;
       $("body").removeClass("no-skin");
       $("body").attr("class", "login-layout light-login");
-      // console.log("login");
+      // 页面初始化加载session
+      let rememberUser = LocalStorage.get(LOCAL_KEY_REMEMBER_USER);
+      if (rememberUser) {
+        _this.user = rememberUser;
+      }
     },
     methods: {
       login() {
-        /*跳转路由*/
         let _this = this;
-        // md5加密
+        let passwordShow = _this.user.password;// localSession必须有值才触发
+
         _this.user.password = hex_md5(_this.user.password + KEY);
 
         Loading.show();
@@ -101,9 +107,20 @@
           let resp = response.data;
           if (resp.success) {
             console.log(resp.content);
+            let loginUser = resp.content;
             // SessionStorage.set("USER", resp.content);// h5的session刷新页面也有，而vue的store和js全局变量刷新页面就没了
-            Tool.setLoginUser(resp.content);
+            Tool.setLoginUser(loginUser);
             _this.$router.push("/welcome")
+            // 勾选“记住我”设置localsession
+            if (_this.remember) {
+              LocalStorage.set(LOCAL_KEY_REMEMBER_USER,{
+                loginName: loginUser.loginName,
+                password: passwordShow
+              });
+            } else {
+              // 没有勾选“记住我”清空localsession
+              LocalStorage.set(LOCAL_KEY_REMEMBER_USER, null);
+            }
           } else {
             Toast.warning(resp.message)
           }
