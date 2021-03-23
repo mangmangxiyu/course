@@ -424,30 +424,30 @@
 
                 <b class="arrow"></b>
               </li>
+            </ul>
+          </li>
 
-              <li class="">
-                <a href="#" class="dropdown-toggle">
-                  <i class="menu-icon fa fa-list"></i>
-                  <span class="menu-text"> 文件管理 </span>
+          <li class="">
+            <a href="#" class="dropdown-toggle">
+              <i class="menu-icon fa fa-list"></i>
+              <span class="menu-text"> 文件管理 </span>
 
-                  <b class="arrow fa fa-angle-down"></b>
-                </a>
+              <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+              <li class="" id="file-file-sidebar">
+                <!--file模块，表名file-->
+                <router-link to="/file/file">
+                  <i class="menu-icon fa fa-caret-right"></i>
+                  文件管理
+                </router-link>
 
                 <b class="arrow"></b>
-
-                <ul class="submenu">
-                  <li class="" id="file-file-sidebar">
-                    <!--file模块，表名file-->
-                    <router-link to="/file/file">
-                      <i class="menu-icon fa fa-caret-right"></i>
-                      文件管理
-                    </router-link>
-
-                    <b class="arrow"></b>
-                  </li>
-
-                </ul>
               </li>
+
             </ul>
           </li>
         </ul><!-- /.nav-list -->
@@ -514,6 +514,18 @@
       // console.log("admin");
       // sidebar激活样式方法二
       _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
+
+      // 解决登陆有ace.min.js不会自动加载必须刷新才加载问题（简写看上个提交记录）
+      $.getScript('/ace/assets/js/ace.min.js');
+      /*
+      $.getScript(url,success(response,status));
+      //等同于一下简写
+      $.ajax({
+        url: url,
+        dataType: "script",
+        success: success
+      });*/
+
     },
     watch:{// 只对admin下的子路由（子组件互相跳转）有效
       $route: {
