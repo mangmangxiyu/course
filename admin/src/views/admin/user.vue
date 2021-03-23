@@ -92,7 +92,8 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">登陆名</label>
                 <div class="col-sm-10">
-                  <input v-model="user.loginName" class="form-control">
+                  <!--id有值时，loginName是不可编辑的-->
+                  <input v-model="user.loginName" v-bind:disabled="user.id" class="form-control">
                 </div>
               </div>
               <div class="form-group">
