@@ -1,6 +1,5 @@
 package com.course.gateway;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +11,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.web.util.pattern.PathPatternParser;
-
 
 @SpringBootApplication
 @EnableEurekaClient
@@ -36,6 +34,12 @@ public class GatewayApplication {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(Boolean.TRUE);
+
+//        config.addAllowedOrigin("http://127.0.0.1:8080");
+//        config.addAllowedOrigin("http://127.0.0.1:9000");
+//        config.addAllowedOrigin("http://127.0.0.1:9000/system/admin/kaptcha/image-code");
+//        config.addAllowedOrigin("http://127.0.0.1:9001");
+//        config.addAllowedOrigin("http://localhost:8080");
         config.addAllowedMethod("*");
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
@@ -46,4 +50,6 @@ public class GatewayApplication {
 
         return new CorsWebFilter(source);
     }
+
+
 }

@@ -43,6 +43,12 @@
             <groupId>com.course</groupId>
             <artifactId>server</artifactId>
         </dependency>
+        <!-- cookie问题-->
+
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-core</artifactId>
+        </dependency>
 
     </dependencies>
 

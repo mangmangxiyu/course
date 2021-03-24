@@ -1,6 +1,5 @@
 package com.course.system.controller.admin;
 
-import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +28,6 @@ public class KaptchaController {
 
     private static final Logger LOG = LoggerFactory.getLogger(KaptchaController.class);
     public static final String BUSINESS_NAME = "图片验证码";
-
 
 
     @GetMapping("/image-code/{imageCodeToken}")
@@ -63,8 +61,5 @@ public class KaptchaController {
         responseOutputStream.write(captchaChallengeAsJpeg);
         responseOutputStream.flush();
         responseOutputStream.close();
-        Object sessionContentO = request.getSession();
-        String sessionContent = JSON.toJSONString(sessionContentO);
-        LOG.info("此时的kaptchesession内容：{}", sessionContent);
     }
 }

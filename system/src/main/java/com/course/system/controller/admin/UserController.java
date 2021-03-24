@@ -41,6 +41,8 @@ public class UserController {
     @Resource
     private UserService userService;
 
+
+
     /**
      *  列表查询
      * @param pageDto
@@ -114,7 +116,6 @@ public class UserController {
     @PostMapping("/login")
     public ResponseDto login(@RequestBody UserDto userDto, HttpServletRequest request) {
         LOG.info("用户登录开始");
-
         // 密码二次加密
         userDto.setPassword(DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes()));
         ResponseDto responseDto = new ResponseDto();
