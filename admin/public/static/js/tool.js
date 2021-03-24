@@ -102,7 +102,7 @@ Tool = {
 
   /**
    * 随机生成[len]长度的[radix]进制数
-   * @param len
+   * @param len 是生成几位的随机数
    * @param radix 默认62
    * @returns {string}
    */
