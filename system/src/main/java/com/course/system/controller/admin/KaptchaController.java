@@ -1,6 +1,9 @@
 package com.course.system.controller.admin;
 
+import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +21,15 @@ import java.io.ByteArrayOutputStream;
 @RestController
 @RequestMapping("/admin/kaptcha")
 public class KaptchaController {
-    public static final String BUSINESS_NAME = "图片验证码";
 
     // 获取验证码属性配置
     @Qualifier("getDefaultKaptcha")
     @Autowired
     DefaultKaptcha defaultKaptcha;
+
+    private static final Logger LOG = LoggerFactory.getLogger(KaptchaController.class);
+    public static final String BUSINESS_NAME = "图片验证码";
+
 
 
     @GetMapping("/image-code/{imageCodeToken}")
@@ -34,7 +40,8 @@ public class KaptchaController {
             String createText = defaultKaptcha.createText();
 
             // 将生成的验证码放入会话缓存中，后续验证的时候用到
-             request.getSession().setAttribute(imageCodeToken, createText);
+            request.getSession().setAttribute(imageCodeToken, createText);
+
             // 将生成的验证码放入redis缓存中，后续验证的时候用到
 //            redisTemplate.opsForValue().set(imageCodeToken, createText, 300, TimeUnit.SECONDS);
 
@@ -56,5 +63,8 @@ public class KaptchaController {
         responseOutputStream.write(captchaChallengeAsJpeg);
         responseOutputStream.flush();
         responseOutputStream.close();
+        Object sessionContentO = request.getSession();
+        String sessionContent = JSON.toJSONString(sessionContentO);
+        LOG.info("此时的kaptchesession内容：{}", sessionContent);
     }
 }
