@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/admin/kaptcha")
 public class KaptchaController {
+    public static final String BUSINESS_NAME = "图片验证码";
 
     // 获取验证码属性配置
     @Qualifier("getDefaultKaptcha")
@@ -33,7 +34,6 @@ public class KaptchaController {
     public RedisTemplate redisTemplate;
 
     private static final Logger LOG = LoggerFactory.getLogger(KaptchaController.class);
-    public static final String BUSINESS_NAME = "图片验证码";
 
 
     @GetMapping("/image-code/{imageCodeToken}")
