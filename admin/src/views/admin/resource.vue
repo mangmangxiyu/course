@@ -1,16 +1,26 @@
 <template>
   <div>
     <p>
-      <button v-on:click="add()" class="btn btn-white btn-default btn-round">
-        <i class="ace-icon fa fa-edit"></i>
-        新增
-      </button>
-      &nbsp;
       <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
         <i class="ace-icon fa fa-refresh"></i>
         刷新
       </button>
     </p>
+
+    <div class="row">
+      <div class="col-md-6">
+        <textarea id="resource-textarea" class="form-control" v-model="resourceStr" name="resource" rows="10"></textarea>
+
+        <br>
+        <button id="save-btn" type="button" class="btn btn-primary" v-on:click="save()">
+          保存
+        </button>
+      </div>
+      <div class="col-md-6">
+        <ul id="tree" class="ztree"></ul>
+      </div>
+    </div>
+
 
     <!--组件的位置并进行渲染:第一个list组件内部定义的回调方法，第二个是resource组件的方法list-->
     <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
@@ -82,48 +92,6 @@
       </tbody>
     </table>
 
-    <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">表单</h4>
-          </div>
-          <div class="modal-body">
-            <form class="form-horizontal">
-              <div class="form-group">
-                <label class="col-sm-2 control-label">名称</label>
-                <div class="col-sm-10">
-                  <input v-model="resource.name" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">页面</label>
-                <div class="col-sm-10">
-                  <input v-model="resource.page" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">请求</label>
-                <div class="col-sm-10">
-                  <input v-model="resource.request" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">父id</label>
-                <div class="col-sm-10">
-                  <input v-model="resource.parent" class="form-control">
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button v-on:click="save()" type="button"  class="btn btn-primary">保存</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
   </div>
 </template>
 
@@ -136,6 +104,7 @@
       return {
         resource: {},//接收单个resource
         resources: [], //接收resource的数组
+        resourceStr: "",
       }
     },
     mounted: function() {
@@ -147,29 +116,6 @@
       // this.$parent().activeSidebar("system-resource-sidebar")
     },
     methods: {
-
-      /**
-       * 添加模态框
-       */
-      add() {
-        let _this = this;
-        _this.resource = {}; // 解决新增数据时模态框保留上次数据问题
-        // 第一个modal是css选择器，模态框代码里有class="modal",是modal()方法里的是内置方法，弹出关闭模态框hide，show
-        $("#form-modal").modal({backdrop:"static"}, "show"); // 点空白不会关闭
-        // $("#form-modal").modal("show"); // 点空白会关闭
-      },
-
-      /**
-       * 点击【编辑】
-       * */
-      edit(resource) {
-        let _this = this;
-        // vue中将表格行数据显示到表单，反过来也会的问题：$.extend({},resource)解决(resource,复制给空对象)
-        _this.resource = $.extend({}, resource); //vue中的_tis.resource会通过v-modal属性和form表单做数据绑定
-        $("#form-modal").modal({backdrop:"static"}, "show"); // 点空白不会关闭
-
-      },
-
       /**删除**/
       del(id) {
         let _this = this;
@@ -210,18 +156,15 @@
         let _this = this;
 
         // 保存校验
-        if (1 != 1
-          || !Validator.require(_this.resource.name, "名称")
-          || !Validator.length(_this.resource.name, "名称", 1, 100)
-          || !Validator.length(_this.resource.page, "页面", 1, 50)
-          || !Validator.length(_this.resource.request, "请求", 1, 200)
-        ) {
+        if (Tool.isEmpty(_this.resourceStr)) {
+          Toast.warning("资源不能为空！")
           return;
         }
+        let json = JSON.parse(_this.resourceStr);
 
         Loading.show();
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/system/admin/resource/save',
-          _this.resource).then((response)=>{
+          json).then((response)=>{
           Loading.hide();
           let resp = response.data;
           if (resp.success) {

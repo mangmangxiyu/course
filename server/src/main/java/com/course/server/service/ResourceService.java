@@ -10,18 +10,22 @@
  */
 package com.course.server.service;
 
+import com.alibaba.fastjson.JSON;
 import com.course.server.domain.Resource;
 import com.course.server.domain.ResourceExample;
-import com.course.server.dto.ResourceDto;
 import com.course.server.dto.PageDto;
+import com.course.server.dto.ResourceDto;
 import com.course.server.mapper.ResourceMapper;
 import com.course.server.util.CopyUtil;
-import com.course.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +38,8 @@ import java.util.List;
  */
 @Service
 public class ResourceService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ResourceService.class);
 
     @javax.annotation.Resource
     private ResourceMapper resourceMapper;
@@ -69,12 +75,10 @@ public class ResourceService {
     }
 
     /**
-     * 新增
+     * 新增,ID是自定义的，不是自动生成的
      * @param resource
      */
     private void insert(Resource resource) {
-
-        resource.setId(UuidUtil.getShortUuid());
         resourceMapper.insert(resource);
     }
 
@@ -93,4 +97,41 @@ public class ResourceService {
     public void delete(String id) {
         resourceMapper.deleteByPrimaryKey(id);
     }
+
+    public void saveJson(String json) {
+        // 树形嵌套结构
+        List<ResourceDto> jsonList = JSON.parseArray(json, ResourceDto.class);
+        // 树形转普通列表，add方法是一个递归函数，功能是将d节点下的子节点添加到list中，如果子节点还有孙子节点，则递归调用add方法
+        ArrayList<ResourceDto> list = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(jsonList)) {
+            for (ResourceDto d: jsonList) {
+                d.setParent("");
+                add(list, d);
+            }
+        }
+
+        LOG.info("供{}条", list.size());
+        // 删除表中所有数据
+        resourceMapper.deleteByExample(null);
+        for (int i = 0; i < list.size(); i++) {
+            this.insert(CopyUtil.copy(list.get(i), Resource.class));
+        }
+    }
+
+    /**
+     * 递归，将树形结构的节点全部取出来，放到list，如果子节点还有孙子节点，则递归调用add方法
+     * @param list
+     * @param dto
+     */
+    public void add(List<ResourceDto> list, ResourceDto dto) {
+        list.add(dto);// 一级节点也要获取
+        if (!CollectionUtils.isEmpty(dto.getChildren())) {
+            for (ResourceDto d : dto.getChildren()) {
+                d.setParent(dto.getId());
+                add(list, d);
+            }
+        }
+    }
+
+
 }
