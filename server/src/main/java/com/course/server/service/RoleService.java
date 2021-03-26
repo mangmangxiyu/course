@@ -12,14 +12,18 @@ package com.course.server.service;
 
 import com.course.server.domain.Role;
 import com.course.server.domain.RoleExample;
+import com.course.server.domain.RoleResource;
+import com.course.server.domain.RoleResourceExample;
 import com.course.server.dto.RoleDto;
 import com.course.server.dto.PageDto;
 import com.course.server.mapper.RoleMapper;
+import com.course.server.mapper.RoleResourceMapper;
 import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -38,6 +42,9 @@ public class RoleService {
 
     @Resource
     private RoleMapper roleMapper;
+
+    @Resource
+    private RoleResourceMapper roleResourceMapper;
 
     // 前端传递过来的类再重新获取返回void关键字
 
@@ -91,7 +98,26 @@ public class RoleService {
      * 删除
      * @param id
      */
+    @Transactional
     public void delete(String id) {
         roleMapper.deleteByPrimaryKey(id);
+    }
+
+    public void saveResource(RoleDto roleDto) {
+        String roleId = roleDto.getId();
+        List<String> resourceIds = roleDto.getResourceIds();
+        // 清空role-resource表中当前角色下所有的记录
+        RoleResourceExample example = new RoleResourceExample();
+        example.createCriteria().andIdEqualTo(roleId);
+        roleResourceMapper.deleteByExample(example);
+
+        // 保存角色资源
+        for (int i = 0; i < resourceIds.size(); i++) {
+            RoleResource roleResource = new RoleResource();
+            roleResource.setId(UuidUtil.getShortUuid());
+            roleResource.setRoleId(roleId);
+            roleResource.setResourceId(resourceIds.get(i));
+            roleResourceMapper.insert(roleResource);
+        }
     }
 }
