@@ -100,17 +100,21 @@ public class RoleService {
      * 删除
      * @param id
      */
-    @Transactional
     public void delete(String id) {
         roleMapper.deleteByPrimaryKey(id);
     }
 
+    /**
+     * 保存角色和资源关联数据
+     * @param roleDto
+     */
+    @Transactional
     public void saveResource(RoleDto roleDto) {
         String roleId = roleDto.getId();
         List<String> resourceIds = roleDto.getResourceIds();
         // 清空role-resource表中当前角色下所有的记录
         RoleResourceExample example = new RoleResourceExample();
-        example.createCriteria().andIdEqualTo(roleId);
+        example.createCriteria().andRoleIdEqualTo(roleId);
         roleResourceMapper.deleteByExample(example);
 
         // 保存角色资源
