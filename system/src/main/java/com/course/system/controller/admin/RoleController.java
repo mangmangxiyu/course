@@ -12,9 +12,9 @@ package com.course.system.controller.admin;/**
  * Created by 111 on 2021/3/3.
  */
 
-import com.course.server.dto.RoleDto;
 import com.course.server.dto.PageDto;
 import com.course.server.dto.ResponseDto;
+import com.course.server.dto.RoleDto;
 import com.course.server.service.RoleService;
 import com.course.server.util.ValidatorUtil;
 import org.slf4j.Logger;
@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -96,6 +97,18 @@ public class RoleController {
         ResponseDto<RoleDto> responseDto = new ResponseDto<>();
         roleService.saveResource(roleDto);
         responseDto.setContent(roleDto);
+        return responseDto;
+    }
+
+    /**
+     * 加载已关联的资源
+     */
+    @GetMapping("/list-resource/{roleId}")
+    public ResponseDto listResource(@PathVariable String roleId) {
+        LOG.info("加载资源开始");
+        ResponseDto responseDto = new ResponseDto<>();
+        List<String> resourceIdList = roleService.listResource(roleId);
+        responseDto.setContent(resourceIdList);
         return responseDto;
     }
 }
