@@ -1,6 +1,9 @@
 package com.course.server.dto;
 
 
+import java.util.HashSet;
+import java.util.List;
+
 public class LoginUserDto {
 
     /**
@@ -23,6 +26,16 @@ public class LoginUserDto {
      * @return
      */
     private String token;
+
+    /**
+     * 所有资源，用于前端界面控制
+     */
+    private List<ResourceDto> resources;
+
+    /**
+     * 所有资源中的请求，用于后端接口拦截
+     */
+    private HashSet<String> requests;
 
     public String getToken() {
         return token;
@@ -56,6 +69,21 @@ public class LoginUserDto {
         this.name = name;
     }
 
+    public List<ResourceDto> getResources() {
+        return resources;
+    }
+
+    public void setResources(List<ResourceDto> resources) {
+        this.resources = resources;
+    }
+
+    public HashSet<String> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(HashSet<String> requests) {
+        this.requests = requests;
+    }
 
     @Override
     public String toString() {
@@ -64,6 +92,8 @@ public class LoginUserDto {
         sb.append(", loginName='").append(loginName).append('\'');
         sb.append(", name='").append(name).append('\'');
         sb.append(", token='").append(token).append('\'');
+        sb.append(", resources=").append(resources);
+        sb.append(", requests=").append(requests);
         sb.append('}');
         return sb.toString();
     }
