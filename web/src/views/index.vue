@@ -16,23 +16,7 @@
         <div class="title">最新上线</div>
         <div class="row">
           <div v-for="o in news" class="col-md-4">
-            <div class="card mb-4 shadow-sm course">
-              <img class="img-fluid" v-bind:src="o.image">
-              <div class="card-body">
-                <h4 class="">{{o.name}}</h4>
-                <p class="card-text">{{o.summary}}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                  </div>
-                  <div class="text-muted">
-                    <span class="badge badge-info"><i class="fa fa-yen" aria-hidden="true"></i>&nbsp;{{o.price}}</span>&nbsp;
-                    <span class="badge badge-info"><i class="fa fa-yen" aria-hidden="true"></i>&nbsp;{{o.enroll}}</span>&nbsp;
-                  </div>
-                </div>
-              </div>
-            </div>
+            <the-course v-bind:course="o"></the-course>
           </div>
         </div>
           <hr>
@@ -40,23 +24,7 @@
         <div class="title2">好课推荐</div>
         <div class="row">
           <div v-for="o in news" class="col-md-4">
-            <div class="card mb-4 shadow-sm course">
-              <img class="img-fluid" v-bind:src="o.image">
-              <div class="card-body">
-                <h4 class="">{{o.name}}</h4>
-                <p class="card-text">{{o.summary}}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                  </div>
-                  <div class="text-muted">
-                    <span class="badge badge-info"><i class="fa fa-yen" aria-hidden="true"></i>&nbsp;{{o.price}}</span>&nbsp;
-                    <span class="badge badge-info"><i class="fa fa-yen" aria-hidden="true"></i>&nbsp;{{o.enroll}}</span>&nbsp;
-                  </div>
-                </div>
-              </div>
-            </div>
+            <the-course v-bind:course="o"></the-course>
           </div>
         </div>
       </div>
@@ -67,8 +35,10 @@
 
 <script>
 
+  import TheCourse from "../components/the-course"
   export default {
     name: "index",
+    components: {TheCourse},
     data: function () {
       return {
         news: [],
