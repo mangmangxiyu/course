@@ -6,7 +6,7 @@
         <h1>在线视频课程</h1>
         <p class="lead text-muted">知识付费时代，一对一辅导名师在线授课，经典科目教程</p>
         <p>
-          <a href="#" class="btn btn-primary my-2" p-3 font-weight-bold>点击进入所有课程</a>
+          <router-link to="/list" class="btn btn-primary my-2 p-3 font-weight-bold">点击进入所有课程</router-link>
         </p>
       </div>
     </section>
