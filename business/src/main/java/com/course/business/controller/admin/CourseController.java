@@ -50,7 +50,7 @@ public class CourseController {
      * @return responseDto
      */
     @PostMapping("/list") // 只支持post请求
-    public ResponseDto list(@RequestBody PageDto pageDto) {//@RequestBody接收表单的形式，不加接收的是json流的方式
+    public ResponseDto list(@RequestBody CoursePageDto pageDto) {//@RequestBody接收表单的形式，不加接收的是json流的方式
         ResponseDto responseDto = new ResponseDto();
         courseService.list(pageDto);
         responseDto.setContent(pageDto);
