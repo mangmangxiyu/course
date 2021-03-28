@@ -12,6 +12,19 @@ Object.keys(filter).forEach(key => {
   Vue.filter(key, filter[key])
 });
 
+// 解决每次ajax请求对应sessionId不一致的问题
+axios.defaults.withCredentials = true;
+
+// axios拦截器
+axios.interceptors.request.use(function (config) {
+  console.info("请求：", config);
+  return config;
+}, error => {});
+axios.interceptors.response.use(function (response) {
+  console.info("返回结果：", response);
+  return response;
+}, error => {});
+
 new Vue({
   router,
   render: h => h(App),

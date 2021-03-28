@@ -276,7 +276,6 @@
 
       /**
        * 列表查询展示分页
-       * @param page
        */
       all() {
         let _this = this;
