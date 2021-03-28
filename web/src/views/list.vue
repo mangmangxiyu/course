@@ -57,6 +57,7 @@
         courses: [],
         level1: [],
         level2: [],
+        categorys: [],
       }
     },
     mounted() {
@@ -92,23 +93,16 @@
         let _this = this;
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/web/category/all').then((response)=>{
           let resp = response.data;
-          _this.categorys = resp.content;
+          let categorys = resp.content;
+          _this.categorys = categorys;
+
 
           // 将所有记录格式化成属性结构的数据
           _this.level1 = [];
-          for (let i = 0; i < _this.categorys.length; i++) {
-            let c = _this.categorys[i];
+          for (let i = 0; i < categorys.length; i++) {
+            let c = categorys[i];
             if (c.parent === "00000000") {
               _this.level1.push(c);
-              for (let j = 0; j < _this.categorys.length; j++) {
-                let child = _this.categorys[j];
-                if (child.parent === c.id) {
-                  if (Tool.isEmpty(c.children)) {
-                    c.children = [];
-                  }
-                  c.children.push(child);
-                }
-              }
             } else {
               _this.level2.push(c);
             }
@@ -122,6 +116,36 @@
        */
       onClickLevel1(level1Id) {
         let _this = this;
+
+        // 点击一级分类时，显示激活状态
+        $("#category-" + level1Id).siblings("a").removeClass("cur");
+        $("#category-" + level1Id).addClass("cur");
+
+        // 点击一级分类时，二级分类【无限】按钮要设置激活状态
+        $("#category-11111111").siblings("a").removeClass("on");
+        $("#category-11111111").addClass("on");
+
+        // 注意：要先把level2中所有的值清空，再往里放
+        _this.level2 = [];
+        let categorys = _this.categorys;
+        // 如果点击的是【全部】，则显示所有的二级分类
+        if (level1Id === '00000000') {
+          for (let i = 0; i < categorys.length; i++) {
+            let c = categorys[i];
+            if (c.parent !== "00000000") {
+              _this.level2.push(c);
+            }
+          }
+        }
+        // 如果点击的是某个一级分类，则显示该一级分类下的二级分类
+        if (level1Id !== '00000000') {
+          for (let i = 0; i < categorys.length; i++) {
+            let c = categorys[i];
+            if (c.parent === level1Id) {
+              _this.level2.push(c);
+            }
+          }
+        }
       },
 
       /**
